@@ -7,6 +7,8 @@ package zitouni_project;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
@@ -16,8 +18,13 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -31,45 +38,42 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     Db db;
-    
-    
-    public void searchPatientsWitheNom(String nom){
-         ResultSet patients = db.getPatietsWithNom(nom);
-         displayPatients(patients);
+    ResultSet patients;
+
+    public void searchPatientsWitheNom(String nom) {
+        patients = db.getPatietsWithNom(nom);
+        displayPatients();
     }
-    
-    
-    /************************************************/
-    
+
+    /**
+     * *********************************************
+     */
     /*
     afficher interface acceuil , kini,...
-    */
-    
-    public void showPanel(String panel){
-        
-        switch(panel){
-            case "kini":{
+     */
+    public void showPanel(String panel) {
+
+        switch (panel) {
+            case "kini": {
                 accueil_panel.setVisible(false);
                 kini_panel.setVisible(true);
-                
-            }break;
-            
-            default:{
+
+            }
+            break;
+
+            default: {
                 accueil_panel.setVisible(true);
                 kini_panel.setVisible(false);
-            }break;
+            }
+            break;
         }
     }
-   
-    
-    
-    
+
     //Afficher dans le tableau
-    public void displayPatients(ResultSet patients){
-           try {
+    public void displayPatients() {
+        try {
             DefaultTableModel dm = new DefaultTableModel(0, 0);
-            String header[] = new String[]{"", "nom", "Prénom", "Nombre Seance",
-                "Sexe", "Numero Telephone", "Rondez Vous"};
+            String header[] = new String[]{"", "nom:", "Prénom:", "Dg:", "Séancec:", "Médecin", "date visit"};
             dm.setColumnIdentifiers(header);
             jtable1.setModel(dm);
 
@@ -81,12 +85,13 @@ public class MainFrame extends javax.swing.JFrame {
 
                 data.add(patients.getString("nom"));
                 data.add(patients.getString("prenom"));
-                data.add(patients.getInt("nmbr_seance"));
-                data.add(patients.getString("sexe"));
-                data.add("0" + patients.getInt("num_tel"));
-                data.add(patients.getString("rondez_vous"));
 
-                data.add("Status");
+                data.add(patients.getString("diagno"));
+                data.add(patients.getString("nmbr_seance"));
+                data.add("Dr " + patients.getString("nom_medecin").toUpperCase()
+                        + " " + patients.getString("prenom_medecin").toUpperCase());
+
+                data.add(patients.getString("date_visit"));
 
                 dm.addRow(data);
                 count++;
@@ -96,15 +101,14 @@ public class MainFrame extends javax.swing.JFrame {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     /*
     Afficher tout les information du patients dans le tableau
-    */
-    public void ShowAllPatients(){
-          ResultSet patients = db.getAllPatient();
+     */
+    public void ShowAllPatients() {
+        patients = db.getAllPatient();
 
-     
-          displayPatients(patients);
+        displayPatients();
     }
 
     public MainFrame() {
@@ -113,11 +117,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         showPanel("accueil");
         db = new Db();
-        
-        ShowAllPatients();
 
-        
-      
+        ShowAllPatients();
 
     }
 
@@ -147,7 +148,6 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         input_name_serch = new javax.swing.JTextField();
         kini_panel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,7 +163,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        kButton2.setText("kini");
+        kButton2.setText("kiné");
         kButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 kButton2ActionPerformed(evt);
@@ -220,6 +220,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-add-black-36\\1x\\baseline_add_black_36dp.png")); // NOI18N
         jLabel2.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel2MouseClicked(evt);
+            }
+        });
 
         jLabel3.setBackground(new java.awt.Color(230, 230, 230));
         jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-delete-black-36\\1x\\baseline_delete_black_36dp.png")); // NOI18N
@@ -235,6 +240,20 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-assignment-black-36\\1x\\baseline_assignment_black_36dp.png")); // NOI18N
         jLabel5.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jLabel5AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+        });
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setBackground(new java.awt.Color(230, 230, 230));
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-local_printshop-black-36\\1x\\baseline_local_printshop_black_36dp.png")); // NOI18N
@@ -307,31 +326,18 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
         );
 
-        kini_panel.setBackground(new java.awt.Color(51, 255, 51));
+        kini_panel.setBackground(new java.awt.Color(255, 255, 255));
         kini_panel.setBorder(new mdlaf.shadows.DropShadowBorder());
-
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\Android\\ud839_Miwok-image_assets\\assets\\drawable-hdpi\\color_black.png")); // NOI18N
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout kini_panelLayout = new javax.swing.GroupLayout(kini_panel);
         kini_panel.setLayout(kini_panelLayout);
         kini_panelLayout.setHorizontalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kini_panelLayout.createSequentialGroup()
-                .addGap(277, 277, 277)
-                .addComponent(jLabel1)
-                .addContainerGap(567, Short.MAX_VALUE))
+            .addGap(0, 976, Short.MAX_VALUE)
         );
         kini_panelLayout.setVerticalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kini_panelLayout.createSequentialGroup()
-                .addGap(86, 86, 86)
-                .addComponent(jLabel1)
-                .addContainerGap(220, Short.MAX_VALUE))
+            .addGap(0, 556, Short.MAX_VALUE)
         );
 
         jLayeredPane1.setLayer(accueil_panel, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -414,29 +420,77 @@ if (preformat != postformat) {
 
     private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
         // TODO add your handling code here:
-        
+
         showPanel("kini");
     }//GEN-LAST:event_kButton2ActionPerformed
-
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
-        System.out.println("click in jlabel");
-    }//GEN-LAST:event_jLabel1MouseClicked
 
     private void input_name_serchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_name_serchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_input_name_serchActionPerformed
 
     private void input_name_serchKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input_name_serchKeyTyped
-        
-        
-      
+
+
     }//GEN-LAST:event_input_name_serchKeyTyped
 
     private void input_name_serchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_input_name_serchKeyReleased
         // TODO add your handling code here:
-         searchPatientsWitheNom(input_name_serch.getText());
+        searchPatientsWitheNom(input_name_serch.getText());
     }//GEN-LAST:event_input_name_serchKeyReleased
+
+    private void jLabel5AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jLabel5AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel5AncestorAdded
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+
+        FilterFrame filterFrame = new FilterFrame();
+        filterFrame.setVisible(true);
+
+        filterFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // get all information
+                String day = null;
+                String mois = null;
+                String annee = null;
+                if (filterFrame.isSelectedDay()) {
+                    day = filterFrame.getDay();
+                }
+
+                if (filterFrame.isSelectedMois()) {
+                    mois = filterFrame.getMois();
+
+                }
+                if (filterFrame.isSelectedAnnee()) {
+                    annee = filterFrame.getAnnee();
+
+                }
+                patients = db.getPatietsWithdate(day, mois, annee);
+                displayPatients();
+
+                e.getWindow().dispose();
+            }
+        });
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+
+        AjouterPatient ajouterPatientFrame = new AjouterPatient();
+        ajouterPatientFrame.setVisible(true);
+
+        ajouterPatientFrame.addWindowListener(new WindowAdapter() {
+           
+            @Override
+            public void windowClosed(WindowEvent e) {
+                super.windowClosed(e);
+                System.out.println(".windowClosed()");
+                ShowAllPatients();
+
+            }
+
+        });
+    }//GEN-LAST:event_jLabel2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -472,13 +526,11 @@ if (preformat != postformat) {
             }
         });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accueil_panel;
     private javax.swing.JTextField input_name_serch;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
