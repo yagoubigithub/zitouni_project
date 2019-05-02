@@ -5,6 +5,23 @@
  */
 package zitouni_project;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.print.PageFormat;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
 /**
  *
  * @author Yagoubi
@@ -14,8 +31,89 @@ public class ImprimePatients extends javax.swing.JFrame {
     /**
      * Creates new form ImprimePatients
      */
+    ResultSet patients;
+
+    static final int WIDTH = 120;
+    static final int HEIGHT = 50;
+    static final int LEFT_SPACE = 20;
     public ImprimePatients() {
         initComponents();
+
+        setLocationRelativeTo(null);
+
+    }
+
+    public void setPatients(ResultSet patients) {
+        this.patients = patients;
+        int count = 1;
+        try {
+            //"nom:", "Prénom:", "Dg:", "Séancec:", "Médecin", "date visit"
+              Cellule cel1 = new Cellule("nom:");
+                Cellule cel2 = new Cellule( "Prénom:");
+                Cellule cel3 = new Cellule("Dg:");
+                Cellule cel4 = new Cellule("Séancec:");
+                Cellule cel5 = new Cellule("Médecin");
+                Cellule cel6 = new Cellule("date visit");
+
+                // setBorder(new LineBorder(Color.BLACK, 2));
+                
+                 cel1.setBorder(new LineBorder(Color.BLACK, 3));
+                cel2.setBorder(new LineBorder(Color.BLACK, 3));
+                cel3.setBorder(new LineBorder(Color.BLACK, 3));
+                cel4.setBorder(new LineBorder(Color.BLACK, 3));
+                cel5.setBorder(new LineBorder(Color.BLACK, 3));
+                cel6.setBorder(new LineBorder(Color.BLACK, 3));
+                
+                cel1.setLocation(0 * WIDTH +LEFT_SPACE, count * HEIGHT + 200);
+                cel2.setLocation(1 * WIDTH +LEFT_SPACE, count * HEIGHT + 200);
+                cel3.setLocation(2 * WIDTH +LEFT_SPACE, count * HEIGHT + 200);
+                cel4.setLocation(3 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel5.setLocation(4 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel6.setLocation(5 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+
+                jPanel3.add(cel1);
+                jPanel3.add(cel2);
+                jPanel3.add(cel3);
+                jPanel3.add(cel4);
+                jPanel3.add(cel5);
+                jPanel3.add(cel6);
+                count++;
+
+            while (this.patients.previous()) {
+
+                 cel1 = new Cellule(this.patients.getString("nom"));
+                 cel2 = new Cellule(this.patients.getString("prenom"));
+                 cel3 = new Cellule(this.patients.getString("diagno"));
+                 cel4 = new Cellule(this.patients.getString("nmbr_seance"));
+                 cel5 = new Cellule(this.patients.getString("nom_medecin"));
+                 cel6 = new Cellule(this.patients.getString("prenom_medecin"));
+
+                cel1.setLocation(0 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel2.setLocation(1 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel3.setLocation(2 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel4.setLocation(3 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel5.setLocation(4 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+                cel6.setLocation(5 * WIDTH + LEFT_SPACE, count * HEIGHT + 200);
+
+                jPanel3.add(cel1);
+                jPanel3.add(cel2);
+                jPanel3.add(cel3);
+                jPanel3.add(cel4);
+                jPanel3.add(cel5);
+                jPanel3.add(cel6);
+                if (count * 50 + 200 > 750) {
+                    jPanel3.setPreferredSize(new Dimension(667, 800 + count * HEIGHT));
+                    jPanel2.setPreferredSize(new Dimension(667, 800 + count * HEIGHT));
+
+                }
+                count++;
+
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+            Logger.getLogger(ImprimePatients.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -27,7 +125,6 @@ public class ImprimePatients extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
@@ -35,10 +132,17 @@ public class ImprimePatients extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+
+        jScrollPane1.setBackground(new java.awt.Color(153, 255, 153));
+
+        jPanel2.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel2.setPreferredSize(new java.awt.Dimension(768, 1800));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setBorder(new mdlaf.shadows.DropShadowBorder());
+        jPanel3.setAutoscrolls(true);
+        jPanel3.setFocusable(false);
         jPanel3.setPreferredSize(new java.awt.Dimension(667, 800));
 
         jLabel1.setFont(new java.awt.Font("Arabic Typesetting", 1, 36)); // NOI18N
@@ -49,7 +153,7 @@ public class ImprimePatients extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(220, Short.MAX_VALUE)
+                .addContainerGap(235, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(211, 211, 211))
         );
@@ -58,7 +162,7 @@ public class ImprimePatients extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(49, 49, 49)
                 .addComponent(jLabel1)
-                .addContainerGap(660, Short.MAX_VALUE))
+                .addContainerGap(709, Short.MAX_VALUE))
         );
 
         jPanel4.setBorder(new mdlaf.shadows.DropShadowBorder());
@@ -67,6 +171,11 @@ public class ImprimePatients extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-local_printshop-black-36\\1x\\baseline_local_printshop_black_36dp.png")); // NOI18N
         jLabel6.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -92,8 +201,8 @@ public class ImprimePatients extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 748, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 748, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -102,40 +211,51 @@ public class ImprimePatients extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 766, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel2);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 772, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
-        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 518, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+
+        PrinterJob pjob = PrinterJob.getPrinterJob();
+        PageFormat preformat = pjob.defaultPage();
+        preformat.setOrientation(PageFormat.LANDSCAPE);
+        PageFormat postformat = pjob.pageDialog(preformat);
+//If user does not hit cancel then print.
+        if (preformat != postformat) {
+            //Set print component
+            pjob.setPrintable(new Printer(jPanel3), postformat);
+            if (pjob.printDialog()) {
+                try {
+                    pjob.print();
+                } catch (PrinterException ex) {
+                    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -175,7 +295,6 @@ public class ImprimePatients extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;

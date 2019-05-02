@@ -22,12 +22,12 @@ public class MyDraggableComponent  extends JLabel {
   private volatile int myX = 0;
   private volatile int myY = 0;
 
-  public MyDraggableComponent() {
+  public MyDraggableComponent(String text) {
     setBorder(new LineBorder(Color.BLUE, 3));
     setBackground(Color.WHITE);
     setBounds(0, 0, 100, 50);
     setOpaque(false);
-      setText("hello world");
+      setText(text);
 
     addMouseListener(new MouseListener() {
 

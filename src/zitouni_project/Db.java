@@ -70,7 +70,7 @@ public class Db {
 
     public ResultSet getAllPatient() {
         return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
-                + "FROM (SELECT * FROM(SELECT personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
                 + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
                 + "                unite.nom nom_unite,\n"
                 + "                 lettre.diagno ,\n"
@@ -92,12 +92,13 @@ public class Db {
     }
 
     ResultSet getPatietsWithNom(String nom) {
-        return getSelect("SELECT * FROM patient WHERE nom LIKE '%" + nom + "%'");
+        return  getSelect(returnQuerySelectWithDate(" WHERE tab2.nom LIKE '%" + nom + "%' "));
+       
     }
 
     String returnQuerySelectWithDate(String selected){
          String  query = "SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
-                + "FROM (SELECT * FROM(SELECT personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
                 + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
                 + "                unite.nom nom_unite,\n"
                 + "                 lettre.diagno ,\n"
@@ -334,6 +335,25 @@ public class Db {
             Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
         }
         return id;
+    }
+
+    boolean deletePatient(int id_patient) {
+      String query = "delete from patient where id = ?";
+      PreparedStatement preparedStmt;
+        try {
+            preparedStmt = connect.prepareStatement(query);
+             preparedStmt.setInt(1, id_patient);
+              preparedStmt.execute();
+              
+              return true;
+        } catch (SQLException ex) {
+            
+            return false;
+        }
+     
+
+      // execute the preparedstatement
+     
     }
 
 }

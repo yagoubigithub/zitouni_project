@@ -5,6 +5,8 @@
  */
 package zitouni_project;
 
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author Yagoubi
@@ -149,7 +151,8 @@ public class FilterFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      dispose();
+      dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+      
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

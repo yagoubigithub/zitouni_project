@@ -5,27 +5,16 @@
  */
 package zitouni_project;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPasswordField;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -81,7 +70,7 @@ public class MainFrame extends javax.swing.JFrame {
 
             while (patients.next()) {
                 Vector<Object> data = new Vector<Object>();
-                data.add(count);
+                data.add(patients.getInt("id_patient"));
 
                 data.add(patients.getString("nom"));
                 data.add(patients.getString("prenom"));
@@ -211,6 +200,11 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jtable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jtable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtable1);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -230,6 +224,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-delete-black-36\\1x\\baseline_delete_black_36dp.png")); // NOI18N
         jLabel3.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
 
         jLabel4.setBackground(new java.awt.Color(230, 230, 230));
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-loop-black-36\\1x\\baseline_loop_black_36dp.png")); // NOI18N
@@ -259,6 +258,11 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel6.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-local_printshop-black-36\\1x\\baseline_local_printshop_black_36dp.png")); // NOI18N
         jLabel6.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         input_name_serch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -480,7 +484,7 @@ if (preformat != postformat) {
         ajouterPatientFrame.setVisible(true);
 
         ajouterPatientFrame.addWindowListener(new WindowAdapter() {
-           
+
             @Override
             public void windowClosed(WindowEvent e) {
                 super.windowClosed(e);
@@ -491,6 +495,32 @@ if (preformat != postformat) {
 
         });
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        ImprimePatients imprimePatients = new ImprimePatients();
+        imprimePatients.setPatients(patients);
+        imprimePatients.setVisible(true);
+
+    }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jtable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable1MouseClicked
+        System.out.println(jtable1.getValueAt(jtable1.getSelectedRow(), 0).toString());
+    }//GEN-LAST:event_jtable1MouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+
+        try {
+            int id_patient = Integer.parseInt(jtable1.getValueAt(jtable1.getSelectedRow(), 0).toString());
+            boolean isDelete = db.deletePatient(id_patient);
+            if (isDelete) {
+                ShowAllPatients();
+            }
+        } catch (Exception e) {
+            
+        }
+
+
+    }//GEN-LAST:event_jLabel3MouseClicked
 
     /**
      * @param args the command line arguments
