@@ -18,6 +18,14 @@ public class Medecin {
     String profession;
     String mode_travail;
 
+    public Medecin(int id, Personne personne, String grad, String profession, String mode_travail) {
+        this.id = id;
+        this.personne = personne;
+        this.grad = grad;
+        this.profession = profession;
+        this.mode_travail = mode_travail;
+    }
+
     public Medecin(int id, Personne personne, String mode_travail) {
         this.id = id;
         this.personne = personne;

@@ -11,6 +11,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
+import java.awt.print.Book;
 import java.awt.print.PageFormat;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
@@ -79,6 +80,7 @@ public class ImprimePatients extends javax.swing.JFrame {
                 jPanel3.add(cel6);
                 count++;
 
+                
             while (this.patients.previous()) {
 
                  cel1 = new Cellule(this.patients.getString("nom"));

@@ -127,7 +127,7 @@ public class AjouterPatient extends javax.swing.JFrame {
         jRadioButton1.setText("Homme");
 
         buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Famme");
+        jRadioButton2.setText("femme");
 
         jLabel7.setText("Nombre séance*");
 
@@ -354,8 +354,9 @@ public class AjouterPatient extends javax.swing.JFrame {
             String nom_medecin = jComboBox2.getSelectedItem().toString();
             
             int id_medecin = db.getIdMedecinFromNom(nom_medecin);
+            int id_unite = db.getIdUniteFromName(unite);
             isSave = db.insertPatient(nom, prenom, date_naissance, adresse, sexe,
-                    tele, Integer.parseInt(nb_seance),nom_medecin_consult,dg,date_dg,unite,id_medecin);
+                    tele, Integer.parseInt(nb_seance),nom_medecin_consult,dg,date_dg,id_medecin,id_unite);
             
             if(isSave){
             dispose();

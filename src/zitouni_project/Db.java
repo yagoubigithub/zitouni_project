@@ -23,6 +23,7 @@ import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import zitouni_project.Object.Medecin;
+import zitouni_project.Object.Patient;
 import zitouni_project.Object.Personne;
 
 /**
@@ -90,14 +91,15 @@ public class Db {
                 + "ORDER BY tab2.id_personne_ DESC"
         );
     }
+    
 
     ResultSet getPatietsWithNom(String nom) {
-        return  getSelect(returnQuerySelectWithDate(" WHERE tab2.nom LIKE '%" + nom + "%' "));
-       
+        return getSelect(returnQuerySelectWithDate(" WHERE tab2.nom LIKE '%" + nom + "%' "));
+
     }
 
-    String returnQuerySelectWithDate(String selected){
-         String  query = "SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+    String returnQuerySelectWithDate(String selected) {
+        String query = "SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
                 + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
                 + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
                 + "                unite.nom nom_unite,\n"
@@ -115,40 +117,40 @@ public class Db {
                 + "\n"
                 + "JOIN personne \n"
                 + "ON tab2.id_personne=personne.id "
-                +  selected
+                + selected
                 + " ORDER BY tab2.id_personne_ DESC";
-         return query;
+        return query;
     }
+
     ResultSet getPatietsWithdate(String day, String mois, String annee) {
 
-       
         if (day != null && mois == null && annee == null) {
-            return getSelect(returnQuerySelectWithDate(" WHERE " + " DAY(date_visit)=" + day) );
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " DAY(date_visit)=" + day));
         } else if (day == null && mois != null && annee == null) {
-            return getSelect(returnQuerySelectWithDate(" WHERE " +  " MONTH(date_visit)=" + mois) );
-           
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " MONTH(date_visit)=" + mois));
+
         } else if (day == null && mois == null && annee != null) {
-          return  getSelect(returnQuerySelectWithDate( " WHERE " + " YEAR(date_visit)=" + annee) );
-            
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " YEAR(date_visit)=" + annee));
+
         } else if (day != null && mois != null && annee == null) {
-           return getSelect(returnQuerySelectWithDate(" WHERE " + " MONTH(date_visit)=" + mois
-                    + " AND DAY(date_visit)=" + day) );
-         
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " MONTH(date_visit)=" + mois
+                    + " AND DAY(date_visit)=" + day));
+
         } else if (day == null && mois != null && annee != null) {
-          return  getSelect(returnQuerySelectWithDate(" WHERE " + " MONTH(date_visit)=" + mois
-                    + " AND YEAR(date_visit)=" + annee) );
-           
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " MONTH(date_visit)=" + mois
+                    + " AND YEAR(date_visit)=" + annee));
+
         } else if (day != null && mois == null && annee != null) {
-          return  getSelect(returnQuerySelectWithDate(" WHERE " +  " DAY(date_visit)=" + day
-                    + " AND YEAR(date_visit)=" + annee) );
-           
+            return getSelect(returnQuerySelectWithDate(" WHERE " + " DAY(date_visit)=" + day
+                    + " AND YEAR(date_visit)=" + annee));
+
         } else if (day != null && mois != null && annee != null) {
-           return getSelect(returnQuerySelectWithDate("WHERE MONTH(date_visit)=" + mois
-                    + " OR YEAR(date_visit)=" + annee + " OR DAY(date_visit)=" + day) );
-       
+            return getSelect(returnQuerySelectWithDate("WHERE MONTH(date_visit)=" + mois
+                    + " OR YEAR(date_visit)=" + annee + " OR DAY(date_visit)=" + day));
+
         } else {
-         return   getSelect(returnQuerySelectWithDate( "") );
-            
+            return getSelect(returnQuerySelectWithDate(""));
+
         }
 
     }
@@ -179,7 +181,7 @@ public class Db {
 
     public boolean insertPatient(String nom, String prenom, String date_naissance,
             String adresse, String sexe, String num_tel, int nmbr_seance,
-            String nom_medecin_consult, String dg, String date_dg, String unite, int id_medecin) {
+            String nom_medecin_consult, String dg, String date_dg, int id_medecin,int id_unite) {
         // the mysql insert statement
         String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
                 + " values (?, ?, ?, ?, ? , ?)";
@@ -216,8 +218,8 @@ public class Db {
                 String date_visit = year + "-"
                         + (month >= 10 ? month : "0" + month)
                         + "-" + (day >= 10 ? day : "0" + day);
-                query = " insert into patient (`id_personne`, `nmbr_seance`, `id_medecin` ,`date_visit` )"
-                        + " values (? , ? , ?, ?)";
+                query = " insert into patient (`id_personne`, `nmbr_seance`, `id_medecin` ,`date_visit` , `id_unite`)"
+                        + " values (? , ? , ?, ?, ?)";
 
                 // create the mysql insert preparedstatement
                 PreparedStatement preparedStmt2;
@@ -227,6 +229,7 @@ public class Db {
                     preparedStmt2.setInt(2, nmbr_seance);
                     preparedStmt2.setInt(3, id_medecin);
                     preparedStmt2.setString(4, date_visit);
+                     preparedStmt2.setInt(5, id_unite);
                     preparedStmt2.executeUpdate();
                     int id_patient = 0;
                     rs = preparedStmt2.getGeneratedKeys();
@@ -236,7 +239,7 @@ public class Db {
                     System.out.println(id_patient + "  id_patient");
 
                     if (id_patient > 0) {
-                        int id_unite = getIdUniteFromName(unite);
+                         
                         System.out.println(id_unite + "  id_unite");
                         query = " insert into lettre (`id_patient`, `nom_medecin_consult`, `diagno`, `date`, `id_unite` )"
                                 + " values (? , ? , ? , ? , ?)";
@@ -338,22 +341,449 @@ public class Db {
     }
 
     boolean deletePatient(int id_patient) {
-      String query = "delete from patient where id = ?";
-      PreparedStatement preparedStmt;
+        String query = "delete from patient where id = ?";
+        PreparedStatement preparedStmt;
         try {
             preparedStmt = connect.prepareStatement(query);
-             preparedStmt.setInt(1, id_patient);
-              preparedStmt.execute();
-              
-              return true;
+            preparedStmt.setInt(1, id_patient);
+            preparedStmt.execute();
+
+            return true;
         } catch (SQLException ex) {
-            
+
             return false;
         }
-     
 
-      // execute the preparedstatement
-     
+        // execute the preparedstatement
+    }
+
+    boolean insertMedecin(String nom, String prenom, String date_naissance, String adresse,
+            String sexe, String tele, int id_unite, String grad, String profession, String mode_travail) {
+
+        String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
+                + " values (?, ?, ?, ?, ? , ?)";
+
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt;
+        try {
+            preparedStmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStmt.setString(1, nom);
+            preparedStmt.setString(2, prenom);
+            preparedStmt.setString(3, date_naissance);
+            preparedStmt.setString(4, adresse);
+            preparedStmt.setString(5, sexe);
+            preparedStmt.setString(6, tele);
+
+            preparedStmt.executeUpdate();
+            int id_personne = 0;
+            ResultSet rs = preparedStmt.getGeneratedKeys();
+            while (rs.next()) {
+                id_personne = rs.getInt(1);
+            }
+
+            System.out.println(id_personne + "  id_personne");
+
+            if (id_personne > 0) {
+                // add to medecin table
+
+                query = " INSERT INTO `medecin`( `id_personne`, `id_unite`, `grade`, `profession`, `mode_travail`)"
+                        + " values (? , ? , ? , ? , ?)";
+
+                // create the mysql insert preparedstatement
+                PreparedStatement preparedStmt3;
+                try {
+                    preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    preparedStmt3.setInt(1, id_personne);
+                    preparedStmt3.setInt(2, id_unite);
+                    preparedStmt3.setString(3, grad);
+                    preparedStmt3.setString(4, profession);
+                    preparedStmt3.setString(5, mode_travail);
+                    preparedStmt3.executeUpdate();
+                    int id_medecin = 0;
+                    rs = preparedStmt3.getGeneratedKeys();
+                    if (rs.next()) {
+                        id_medecin = rs.getInt(1);
+                    }
+                    System.out.println(id_medecin + "  id_medecin");
+                } catch (SQLException ex) {
+
+                    return false;
+                }
+
+            }
+
+        } catch (SQLException ex) {
+
+            return false;
+        }
+        return true;
+
+    }
+
+    boolean insertkine(String nom, String prenom, String date_naissance, String adresse, String sexe, String tele, String mode_travail) {
+
+        String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
+                + " values (?, ?, ?, ?, ? , ?)";
+        PreparedStatement preparedStmt;
+        try {
+            preparedStmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStmt.setString(1, nom);
+            preparedStmt.setString(2, prenom);
+            preparedStmt.setString(3, date_naissance);
+            preparedStmt.setString(4, adresse);
+            preparedStmt.setString(5, sexe);
+            preparedStmt.setString(6, tele);
+
+            preparedStmt.executeUpdate();
+            int id_personne = 0;
+            ResultSet rs = preparedStmt.getGeneratedKeys();
+            while (rs.next()) {
+                id_personne = rs.getInt(1);
+            }
+
+            System.out.println(id_personne + "  id_personne");
+
+            if (id_personne > 0) {
+                // add to medecin table
+
+                query = " INSERT INTO `kine`( `id_personne`, `mode_travail`)"
+                        + " values (? , ? )";
+
+                // create the mysql insert preparedstatement
+                PreparedStatement preparedStmt3;
+                try {
+                    preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    preparedStmt3.setInt(1, id_personne);
+
+                    preparedStmt3.setString(2, mode_travail);
+                    preparedStmt3.executeUpdate();
+                    int id_kine = 0;
+                    rs = preparedStmt3.getGeneratedKeys();
+                    if (rs.next()) {
+                        id_kine = rs.getInt(1);
+                    }
+                    System.out.println(id_kine + "  id_medecin");
+                } catch (SQLException ex) {
+
+                    System.out.println(ex.getMessage());
+                    return false;
+                }
+
+            }
+
+        } catch (SQLException ex) {
+
+            return false;
+        }
+        return true;
+
+    }
+
+    ResultSet getAllKine() {
+        return getSelect("SELECT * FROM kine JOIN personne ON personne.id= kine.id_personne");
+
+    }
+
+    ResultSet getAllMedecins() {
+        return getSelect(""
+                + "SELECT personne.*,unite.nom nom_unite,medecin.grade,medecin.id id_medecin,medecin.profession,medecin.mode_travail"
+                + " FROM medecin JOIN personne"
+                + " ON personne.id=medecin.id_personne "
+                + "JOIN unite ON medecin.id_unite=unite.id");
+    }
+
+    boolean deleteMedecin(int id_medecin) {
+        String query = "delete from medecin where id = ?";
+        PreparedStatement preparedStmt;
+        try {
+            preparedStmt = connect.prepareStatement(query);
+            preparedStmt.setInt(1, id_medecin);
+            preparedStmt.execute();
+
+            return true;
+        } catch (SQLException ex) {
+
+            return false;
+        }
+
+    }
+
+    boolean deleteKine(int id_kine) {
+
+        String query = "delete from kine where id = ?";
+        PreparedStatement preparedStmt;
+        try {
+            preparedStmt = connect.prepareStatement(query);
+            preparedStmt.setInt(1, id_kine);
+            preparedStmt.execute();
+
+            return true;
+        } catch (SQLException ex) {
+
+            return false;
+        }
+    }
+
+    public int getIdPersonneFromIdMedecin(int id_medecin) {
+        ResultSet res = getSelect("SELECT id_personne FROM medecin  WHERE id=" + id_medecin);
+        int id_personne = -1;
+        try {
+            while (res.next()) {
+                id_personne = res.getInt("id_personne");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_personne;
+    }
+
+    public int getIdPersonneFromIdkine(int id_kine) {
+        ResultSet res = getSelect("SELECT id_personne FROM kine  WHERE id=" + id_kine);
+        int id_personne = -1;
+        try {
+            while (res.next()) {
+                id_personne = res.getInt("id_personne");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_personne;
+    }
+
+    boolean updateMedecin(int id_medecin, String nom, String prenom,
+            String date_naissance, String adresse, String sexe, String num_tel, int id_unite, String grade, String profession, String mode_travail) {
+        int id_personne = getIdPersonneFromIdMedecin(id_medecin);
+        if (id_personne > 0) {
+            String query = " update   personne set `nom` = ?, `prenom` = ?, `date_naissance` = ?, `adresse` = ?,"
+                    + " `sexe` = ?, `num_tel`= ? "
+                    + "  WHERE id=" + id_personne;
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt;
+            try {
+                preparedStmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                preparedStmt.setString(1, nom);
+                preparedStmt.setString(2, prenom);
+                preparedStmt.setString(3, date_naissance);
+                preparedStmt.setString(4, adresse);
+                preparedStmt.setString(5, sexe);
+                preparedStmt.setString(6, num_tel);
+
+                preparedStmt.executeUpdate();
+
+                if (id_personne > 0) {
+
+                    query = " UPDATE `medecin` SET `id_personne`= ?, `id_unite`=?, `grade`=?, `profession`=?, `mode_travail`=? "
+                            + " WHERE id=" + id_medecin;
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt3;
+                    try {
+                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                        preparedStmt3.setInt(1, id_personne);
+                        preparedStmt3.setInt(2, id_unite);
+                        preparedStmt3.setString(3, grade);
+                        preparedStmt3.setString(4, profession);
+                        preparedStmt3.setString(5, mode_travail);
+                        preparedStmt3.executeUpdate();
+
+                    } catch (SQLException ex) {
+
+                        return false;
+                    }
+
+                }
+
+            } catch (SQLException ex) {
+
+                return false;
+            }
+            return true;
+        }
+        return true;
+
+    }
+
+    boolean updatekine(int id_kine, String nom, String prenom, String date_naissance, String adresse, String sexe, String num_tel, String mode_travail) {
+        int id_personne = getIdPersonneFromIdkine(id_kine);
+
+        System.out.println("id kine = " + id_kine + " id personne = " + id_personne);
+        if (id_personne > 0) {
+            String query = " update   personne set `nom` = ?, `prenom` = ?, `date_naissance` = ?, `adresse` = ?,"
+                    + " `sexe` = ?, `num_tel`= ? "
+                    + "  WHERE id=" + id_personne;
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt;
+            try {
+                preparedStmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                preparedStmt.setString(1, nom);
+                preparedStmt.setString(2, prenom);
+                preparedStmt.setString(3, date_naissance);
+                preparedStmt.setString(4, adresse);
+                preparedStmt.setString(5, sexe);
+                preparedStmt.setString(6, num_tel);
+
+                preparedStmt.executeUpdate();
+
+                if (id_personne > 0) {
+
+                    query = " UPDATE `kine` SET `id_personne`= ?, `mode_travail`=? "
+                            + " WHERE id=" + id_kine;
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt3;
+                    try {
+                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                        preparedStmt3.setInt(1, id_personne);
+
+                        preparedStmt3.setString(2, mode_travail);
+                        preparedStmt3.executeUpdate();
+
+                    } catch (SQLException ex) {
+
+                        System.out.println(ex.getMessage());
+                        return false;
+                    }
+
+                }
+
+            } catch (SQLException ex) {
+                System.out.println(ex.getMessage());
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    ResultSet getAllPatientInKine() {
+       
+         return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n"
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id "
+                 + "AND unite.nom='kinésithérapie' "
+                 + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + "ORDER BY tab2.id_personne_ DESC"
+        );
+    }
+
+    Patient getPatientParDateSuiviAndTime(String data_suivi, String heure) {
+        Patient patient = null;
+       ResultSet res  = getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n"
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id "
+                 + "AND unite.nom='kinésithérapie' "
+               + "JOIN suivi "
+               + "ON suivi.id_patient=patient.id AND suivi.date='"+data_suivi+"' AND suivi.heure='"+heure+"' "
+                 + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + "ORDER BY tab2.id_personne_ DESC "
+               + ""
+        );
+        try {
+            while (res.next()) {
+                patient = new Patient(res.getInt("id_patient"),
+                        res.getString("nom"), res.getString("prenom"),
+                        res.getString("diagno"), res.getInt("nmbr_seance"),
+                        res.getString("nom_medecin"),
+                        res.getString("prenom_medecin"), res.getString("date_visit"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return patient;
+       
+    }
+
+    boolean updateSuiviParDateAndTime(String date, String heure, int id_patient) {
+    String query = " UPDATE `suivi` SET `id_patient`= ? "
+                            + " WHERE date=? AND heure=? ";
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt3;
+                    try {
+                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                        preparedStmt3.setInt(1, id_patient);
+
+                        preparedStmt3.setString(2, date);
+                        preparedStmt3.setString(3, heure);
+                        preparedStmt3.executeUpdate();
+
+                    } catch (SQLException ex) {
+
+                        System.out.println("hena "  + ex.getMessage());
+                        return false;
+                    }  
+                    
+                    return true;
+    }
+
+    int getIdMedecinFromIdPatient(int id_patient) {
+       
+         int id = 0;
+        ResultSet res = getSelect("SELECT id_medecin FROM patient WHERE id=" + id_patient );
+        try {
+            while (res.next()) {
+                id = res.getInt("id_medecin");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id;
+    }
+
+    boolean createSuivi(int id_unite, int id_patient, String date, String heure, int id_medecin, int id_kine) {
+       String  query = " INSERT INTO suivi (`id_unite`, `id_patient`, `date`, `heure`, `id_medecin`, `id_kine` )"
+                                + " values (? , ? , ? , ? , ?, ?)";
+
+                        // create the mysql insert preparedstatement
+                        PreparedStatement preparedStmt3;
+                        try {
+                            preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                            preparedStmt3.setInt(1, id_unite);
+                            preparedStmt3.setInt(2, id_patient);
+                            preparedStmt3.setString(3, date);
+                            preparedStmt3.setString(4, heure);
+                            preparedStmt3.setInt(5, id_medecin);
+                             preparedStmt3.setInt(6, id_kine);
+                            preparedStmt3.executeUpdate();
+                           
+                        } catch (SQLException ex) {
+
+                            System.out.println(ex.getMessage());
+                            return false;
+                        }
+                        return true;
     }
 
 }

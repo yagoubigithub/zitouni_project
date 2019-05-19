@@ -117,8 +117,12 @@ public class AuthFram extends javax.swing.JFrame {
         String type = db.Auth(nom, password);
         if(type.equals("no")){
             //Affiche dialoge  error nom or password
-        }else if(type.equals("medecin")){
-            // Jframe Medecin
+        }else if(type.equals("Réceptionniste")){
+            // Jframe Réceptionniste
+            //MainFrame
+            MainFrame mf = new MainFrame();
+            mf.setVisible(true);
+            dispose();
         }else{
             //MainFrame
             MainFrame mf = new MainFrame();
