@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import zitouni_project.Object.Kine;
 import zitouni_project.Object.Medecin;
 import zitouni_project.Object.Patient;
 import zitouni_project.Object.Personne;
@@ -91,7 +92,6 @@ public class Db {
                 + "ORDER BY tab2.id_personne_ DESC"
         );
     }
-    
 
     ResultSet getPatietsWithNom(String nom) {
         return getSelect(returnQuerySelectWithDate(" WHERE tab2.nom LIKE '%" + nom + "%' "));
@@ -181,7 +181,7 @@ public class Db {
 
     public boolean insertPatient(String nom, String prenom, String date_naissance,
             String adresse, String sexe, String num_tel, int nmbr_seance,
-            String nom_medecin_consult, String dg, String date_dg, int id_medecin,int id_unite) {
+            String nom_medecin_consult, String dg, String date_dg, int id_medecin, int id_unite) {
         // the mysql insert statement
         String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
                 + " values (?, ?, ?, ?, ? , ?)";
@@ -229,7 +229,7 @@ public class Db {
                     preparedStmt2.setInt(2, nmbr_seance);
                     preparedStmt2.setInt(3, id_medecin);
                     preparedStmt2.setString(4, date_visit);
-                     preparedStmt2.setInt(5, id_unite);
+                    preparedStmt2.setInt(5, id_unite);
                     preparedStmt2.executeUpdate();
                     int id_patient = 0;
                     rs = preparedStmt2.getGeneratedKeys();
@@ -239,7 +239,7 @@ public class Db {
                     System.out.println(id_patient + "  id_patient");
 
                     if (id_patient > 0) {
-                         
+
                         System.out.println(id_unite + "  id_unite");
                         query = " insert into lettre (`id_patient`, `nom_medecin_consult`, `diagno`, `date`, `id_unite` )"
                                 + " values (? , ? , ? , ? , ?)";
@@ -658,8 +658,8 @@ public class Db {
     }
 
     ResultSet getAllPatientInKine() {
-       
-         return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+
+        return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
                 + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
                 + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
                 + "                unite.nom nom_unite,\n"
@@ -672,8 +672,8 @@ public class Db {
                 + "                ON lettre.id_patient=patient.id \n"
                 + "                JOIN unite\n"
                 + "                ON lettre.id_unite=unite.id "
-                 + "AND unite.nom='kinésithérapie' "
-                 + ") tab1\n"
+                + "AND unite.nom='kinésithérapie' "
+                + ") tab1\n"
                 + "JOIN medecin\n"
                 + "ON medecin.id=tab1.id_medecin) tab2\n"
                 + "\n"
@@ -685,7 +685,7 @@ public class Db {
 
     Patient getPatientParDateSuiviAndTime(String data_suivi, String heure) {
         Patient patient = null;
-       ResultSet res  = getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+        ResultSet res = getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
                 + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
                 + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
                 + "                unite.nom nom_unite,\n"
@@ -698,17 +698,17 @@ public class Db {
                 + "                ON lettre.id_patient=patient.id \n"
                 + "                JOIN unite\n"
                 + "                ON lettre.id_unite=unite.id "
-                 + "AND unite.nom='kinésithérapie' "
-               + "JOIN suivi "
-               + "ON suivi.id_patient=patient.id AND suivi.date='"+data_suivi+"' AND suivi.heure='"+heure+"' "
-                 + ") tab1\n"
+                + "AND unite.nom='kinésithérapie' "
+                + "JOIN suivi "
+                + "ON suivi.id_patient=patient.id AND suivi.date='" + data_suivi + "' AND suivi.heure='" + heure + "' "
+                + ") tab1\n"
                 + "JOIN medecin\n"
                 + "ON medecin.id=tab1.id_medecin) tab2\n"
                 + "\n"
                 + "JOIN personne \n"
                 + "ON tab2.id_personne=personne.id "
                 + "ORDER BY tab2.id_personne_ DESC "
-               + ""
+                + ""
         );
         try {
             while (res.next()) {
@@ -721,37 +721,37 @@ public class Db {
         } catch (SQLException ex) {
             Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
         }
-       return patient;
-       
+        return patient;
+
     }
 
     boolean updateSuiviParDateAndTime(String date, String heure, int id_patient) {
-    String query = " UPDATE `suivi` SET `id_patient`= ? "
-                            + " WHERE date=? AND heure=? ";
+        String query = " UPDATE `suivi` SET `id_patient`= ? "
+                + " WHERE date=? AND heure=? ";
 
-                    // create the mysql insert preparedstatement
-                    PreparedStatement preparedStmt3;
-                    try {
-                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                        preparedStmt3.setInt(1, id_patient);
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt3;
+        try {
+            preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStmt3.setInt(1, id_patient);
 
-                        preparedStmt3.setString(2, date);
-                        preparedStmt3.setString(3, heure);
-                        preparedStmt3.executeUpdate();
+            preparedStmt3.setString(2, date);
+            preparedStmt3.setString(3, heure);
+            preparedStmt3.executeUpdate();
 
-                    } catch (SQLException ex) {
+        } catch (SQLException ex) {
 
-                        System.out.println("hena "  + ex.getMessage());
-                        return false;
-                    }  
-                    
-                    return true;
+            System.out.println("hena " + ex.getMessage());
+            return false;
+        }
+
+        return true;
     }
 
     int getIdMedecinFromIdPatient(int id_patient) {
-       
-         int id = 0;
-        ResultSet res = getSelect("SELECT id_medecin FROM patient WHERE id=" + id_patient );
+
+        int id = 0;
+        ResultSet res = getSelect("SELECT id_medecin FROM patient WHERE id=" + id_patient);
         try {
             while (res.next()) {
                 id = res.getInt("id_medecin");
@@ -763,27 +763,55 @@ public class Db {
     }
 
     boolean createSuivi(int id_unite, int id_patient, String date, String heure, int id_medecin, int id_kine) {
-       String  query = " INSERT INTO suivi (`id_unite`, `id_patient`, `date`, `heure`, `id_medecin`, `id_kine` )"
-                                + " values (? , ? , ? , ? , ?, ?)";
+        String query = " INSERT INTO suivi (`id_unite`, `id_patient`, `date`, `heure`, `id_medecin`, `id_kine` )"
+                + " values (? , ? , ? , ? , ?, ?)";
 
-                        // create the mysql insert preparedstatement
-                        PreparedStatement preparedStmt3;
-                        try {
-                            preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-                            preparedStmt3.setInt(1, id_unite);
-                            preparedStmt3.setInt(2, id_patient);
-                            preparedStmt3.setString(3, date);
-                            preparedStmt3.setString(4, heure);
-                            preparedStmt3.setInt(5, id_medecin);
-                             preparedStmt3.setInt(6, id_kine);
-                            preparedStmt3.executeUpdate();
-                           
-                        } catch (SQLException ex) {
+        // create the mysql insert preparedstatement
+        PreparedStatement preparedStmt3;
+        try {
+            preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStmt3.setInt(1, id_unite);
+            preparedStmt3.setInt(2, id_patient);
+            preparedStmt3.setString(3, date);
+            preparedStmt3.setString(4, heure);
+            preparedStmt3.setInt(5, id_medecin);
+            preparedStmt3.setInt(6, id_kine);
+            preparedStmt3.executeUpdate();
 
-                            System.out.println(ex.getMessage());
-                            return false;
-                        }
-                        return true;
+        } catch (SQLException ex) {
+
+            System.out.println(ex.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    ResultSet getAllSuiviInKineFromDateAndIdKine(int id_kine, String date) {
+        return getSelect("SELECT * FROM `suivi` \n"
+                + "	JOIN patient\n"
+                + "	ON suivi.id_patient=patient.id \n"
+                + "	JOIN personne \n"
+                + "	ON personne.id=patient.id_personne \n"
+                + "WHERE suivi.date = '" + date + "' AND suivi.id_kine="+id_kine
+        );
+    }
+
+    Kine getKine(int id_kine) {
+        Kine kine = null;
+       ResultSet res= getSelect("SELECT * FROM kine JOIN personne "
+               + "ON personne.id=kine.id_personne WHERE kine.id="+id_kine);
+        try {
+            while (res.next()) {
+                kine = new Kine(res.getInt("id"),new Personne(res.getInt("id"),
+                                res.getString("nom"), res.getString("prenom"),
+                                res.getString("adresse"), res.getString("num_tel"),
+                                res.getString("date_naissance"),
+                                res.getString("sexe")), res.getString("mode_travail"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return kine;
     }
 
 }

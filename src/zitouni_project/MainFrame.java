@@ -202,7 +202,8 @@ public class MainFrame extends javax.swing.JFrame {
                         res.getString("nom"), res.getString("prenom"),
                         res.getString("adresse"), res.getString("num_tel"),
                         res.getString("date_naissance"),
-                        res.getString("sexe")), res.getString("grade"), res.getString("profession"), res.getString("mode_travail")));
+                        res.getString("sexe")), res.getString("grade"),
+                        res.getString("profession"), res.getString("mode_travail")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -994,6 +995,11 @@ if (preformat != postformat) {
                 affectation_kine.setModeTravail(mode_travail);
                 affectation_kine.setIdKine(id_kine);
                 affectation_kine.setVisible(true);
+                
+                EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
+                emploiDuTemps.setModeTravail(mode_travail);
+                emploiDuTemps.setIdKine(id_kine);
+                emploiDuTemps.setVisible(true);
             }
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

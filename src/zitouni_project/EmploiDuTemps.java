@@ -5,17 +5,409 @@
  */
 package zitouni_project;
 
-/**
- *
- * @author Yagoubi
- */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import zitouni_project.Object.Kine;
+import zitouni_project.Object.Patient;
+import zitouni_project.Object.Personne;
+import zitouni_project.Object.Suivi;
+
 public class EmploiDuTemps extends javax.swing.JFrame {
 
-    /**
-     * Creates new form EmploiDuTemps
-     */
+    String mode_travail = "jour";
+    int id_kine;
+    Db db;
+
     public EmploiDuTemps() {
         initComponents();
+        db = new Db();
+        addTime();
+        addJour();
+    }
+
+    public void setModeTravail(String mode_travail) {
+        if (mode_travail.contains("j")) {
+            this.mode_travail = "jour";
+        }
+        if (mode_travail.contains("n")) {
+            this.mode_travail = "nuit";
+        }
+
+        addTime();
+        addJour();
+
+        //  addPatients();
+    }
+
+    public void setIdKine(int id_kine) {
+        this.id_kine = id_kine;
+        addPatients();
+        
+        addKine();
+    }
+
+    public void addKine(){
+        Kine kine = db.getKine(this.id_kine);
+        kine_name.setText(kine.getPersonne().getNom() + " " + kine.getPersonne().getPrenom());
+    }
+    public ArrayList<Suivi> getSuivi(String date) {
+        ArrayList<Suivi> suivis = new ArrayList<>();
+        ResultSet res = db.getAllSuiviInKineFromDateAndIdKine(id_kine, date);
+        try {
+
+            while (res.next()) {
+                suivis.add(new Suivi(res.getInt("id"), res.getInt("id_unite"), res.getInt("id_patient"),
+                        res.getString("date"),
+                        res.getString("heure"),
+                        res.getInt("id_medecin"),
+                        res.getInt("id_kine"),
+                        new Personne(res.getInt("id"),
+                                res.getString("nom"), res.getString("prenom"),
+                                res.getString("adresse"), res.getString("num_tel"),
+                                res.getString("date_naissance"),
+                                res.getString("sexe")))
+                );
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return suivis;
+    }
+
+    public void addJour() {
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+        LocalDateTime j1_ = LocalDateTime.now();
+        LocalDateTime j2_ = j1_.getDayOfWeek() == DayOfWeek.THURSDAY ? j1_.plusDays(3) : j1_.plusDays(1);
+        LocalDateTime j3_ = j2_.getDayOfWeek() == DayOfWeek.THURSDAY ? j2_.plusDays(3) : j2_.plusDays(1);
+        LocalDateTime j4_ = j3_.getDayOfWeek() == DayOfWeek.THURSDAY ? j3_.plusDays(3) : j3_.plusDays(1);
+        LocalDateTime j5_ = j4_.getDayOfWeek() == DayOfWeek.THURSDAY ? j4_.plusDays(3) : j4_.plusDays(1);
+
+        //System.out.println(dtf.format(j1)); //2016/11/16 12:08:43
+        j1.setText(dtf.format(j1_));
+        j2.setText(dtf.format(j2_));
+        j3.setText(dtf.format(j3_));
+        j4.setText(dtf.format(j4_));
+        j5.setText(dtf.format(j5_));
+
+    }
+
+    public void addTime() {
+        if (this.mode_travail.equals("jour")) {
+            t1.setText("8:00-10:00");
+            t2.setText("10:00-12:00");
+            t3.setText("13:00-15:00");
+            t4.setText("15:00-17:00");
+        } else if (this.mode_travail.equals("nuit")) {
+            t1.setText("17:00-19:00");
+            t2.setText("19:00-21:00");
+            t3.setText("21:00-23:00");
+            t4.setText("23:00-00:00");
+        }
+    }
+
+    private void addPatients() {
+
+        ArrayList<Suivi> suivi_j1 = getSuivi(j1.getText());
+        j1_t1.setText("");
+        j1_t2.setText("");
+        j1_t3.setText("");
+        j1_t4.setText("");
+        for (int i = 0; i < suivi_j1.size(); i++) {
+            Suivi suivi = suivi_j1.get(i);
+            if (this.mode_travail.equals("jour")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        j1_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        j1_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        j1_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        j1_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        j1_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        j1_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        j1_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        j1_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        
+  /************ **************************************************************************************************/
+        
+        //Jour 2
+
+        ArrayList<Suivi> suivi_j2 = getSuivi(j2.getText());
+        j2_t1.setText("");
+        j2_t2.setText("");
+        j2_t3.setText("");
+        j2_t4.setText("");
+
+        for (int i = 0; i < suivi_j2.size(); i++) {
+            Suivi suivi = suivi_j2.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        j2_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        j2_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        j2_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        j2_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        j2_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        j2_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        j2_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        j2_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        
+        /****************************************************************************************************************/
+        //jour 3
+        ArrayList<Suivi> suivi_j3 = getSuivi(j3.getText());
+        
+         j3_t1.setText("");
+        j3_t2.setText("");
+        j3_t3.setText("");
+        j3_t4.setText("");
+
+        for (int i = 0; i < suivi_j3.size(); i++) {
+            Suivi suivi = suivi_j3.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        j3_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        j3_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        j3_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        j3_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        j3_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        j3_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        j3_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        j3_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        /***************************************************************************************************************/
+        //Jour 4
+        ArrayList<Suivi> suivi_j4 = getSuivi(j4.getText());
+         j4_t1.setText("");
+        j4_t2.setText("");
+        j4_t3.setText("");
+        j4_t4.setText("");
+
+        for (int i = 0; i < suivi_j4.size(); i++) {
+            Suivi suivi = suivi_j4.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        j4_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        j4_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        j4_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        j4_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        j4_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        j4_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        j4_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        j4_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        /*******************************************************************************************************/
+        //jour5
+        ArrayList<Suivi> suivi_j5 = getSuivi(j5.getText());
+        
+        
+         j5_t1.setText("");
+        j5_t2.setText("");
+        j5_t3.setText("");
+        j5_t4.setText("");
+
+        for (int i = 0; i < suivi_j5.size(); i++) {
+            Suivi suivi = suivi_j5.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        j5_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        j5_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        j5_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        j5_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        j5_t1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        j5_t2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        j5_t3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        j5_t4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+
     }
 
     /**
@@ -35,7 +427,7 @@ public class EmploiDuTemps extends javax.swing.JFrame {
         j1_t3 = new javax.swing.JLabel();
         j1_t4 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        kine_name = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         j2 = new javax.swing.JLabel();
         j2_t1 = new javax.swing.JLabel();
@@ -66,11 +458,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
         t3 = new javax.swing.JLabel();
         t4 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        j1.setText("jLabel1");
+        j1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        j1.setText("2019/05/21");
 
         j1_t1.setText("jLabel11");
 
@@ -87,15 +483,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(j1)
-                .addGap(53, 53, 53)
+                .addGap(73, 73, 73)
                 .addComponent(j1_t1)
-                .addGap(111, 111, 111)
+                .addGap(113, 113, 113)
                 .addComponent(j1_t2)
-                .addGap(126, 126, 126)
+                .addGap(130, 130, 130)
                 .addComponent(j1_t3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(j1_t4)
-                .addGap(44, 44, 44))
+                .addGap(71, 71, 71))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -110,9 +506,10 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jLabel10.setText("jLabel10");
+        kine_name.setText("jLabel10");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -120,25 +517,28 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
-                .addComponent(jLabel10)
+                .addComponent(kine_name)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap(40, Short.MAX_VALUE)
-                .addComponent(jLabel10)
+                .addComponent(kine_name)
                 .addContainerGap())
         );
 
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
         jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        j2.setText("jLabel2");
+        j2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        j2.setText("2019/01/14");
 
         j2_t1.setText("jLabel15");
 
         j2_t2.setText("jLabel16");
 
+        j2_t3.setBackground(new java.awt.Color(255, 255, 255));
         j2_t3.setText("jLabel17");
 
         j2_t4.setText("jLabel18");
@@ -150,15 +550,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(j2)
-                .addGap(53, 53, 53)
+                .addGap(70, 70, 70)
                 .addComponent(j2_t1)
                 .addGap(114, 114, 114)
                 .addComponent(j2_t2)
-                .addGap(127, 127, 127)
+                .addGap(133, 133, 133)
                 .addComponent(j2_t3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(j2_t4)
-                .addGap(42, 42, 42))
+                .addGap(66, 66, 66))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,9 +573,11 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addContainerGap(23, Short.MAX_VALUE))
         );
 
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
         jPanel10.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        j3.setText("jLabel3");
+        j3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        j3.setText("2019/01/21");
 
         j3_t1.setText("jLabel19");
 
@@ -192,15 +594,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(j3)
-                .addGap(52, 52, 52)
+                .addGap(70, 70, 70)
                 .addComponent(j3_t1)
-                .addGap(118, 118, 118)
+                .addGap(116, 116, 116)
                 .addComponent(j3_t2)
-                .addGap(124, 124, 124)
+                .addGap(132, 132, 132)
                 .addComponent(j3_t3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(j3_t4)
-                .addGap(37, 37, 37))
+                .addGap(67, 67, 67))
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,9 +617,11 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        j4.setText("jLabel4");
+        j4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        j4.setText("2018/01/44");
 
         j4_t1.setText("jLabel23");
 
@@ -234,15 +638,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(j4)
-                .addGap(49, 49, 49)
+                .addGap(71, 71, 71)
                 .addComponent(j4_t1)
-                .addGap(124, 124, 124)
+                .addGap(112, 112, 112)
                 .addComponent(j4_t2)
-                .addGap(123, 123, 123)
+                .addGap(134, 134, 134)
                 .addComponent(j4_t3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(j4_t4)
-                .addGap(32, 32, 32))
+                .addGap(63, 63, 63))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -257,9 +661,11 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
+        jPanel12.setBackground(new java.awt.Color(255, 255, 255));
         jPanel12.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        j5.setText("jLabel5");
+        j5.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        j5.setText("2018/05/20");
 
         j5_t1.setText("jLabel27");
 
@@ -276,15 +682,15 @@ public class EmploiDuTemps extends javax.swing.JFrame {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(j5)
-                .addGap(49, 49, 49)
+                .addGap(68, 68, 68)
                 .addComponent(j5_t1)
-                .addGap(123, 123, 123)
+                .addGap(117, 117, 117)
                 .addComponent(j5_t2)
-                .addGap(125, 125, 125)
+                .addGap(130, 130, 130)
                 .addComponent(j5_t3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(j5_t4)
-                .addGap(27, 27, 27))
+                .addGap(58, 58, 58))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -299,30 +705,35 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
+        jPanel13.setBackground(new java.awt.Color(255, 255, 255));
         jPanel13.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        t1.setText("jLabel6");
+        t1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        t1.setText("08:00-12:00");
 
-        t2.setText("jLabel7");
+        t2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        t2.setText("10:00-12:00");
 
-        t3.setText("jLabel8");
+        t3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        t3.setText("13:00-15:00");
 
-        t4.setText("jLabel9");
+        t4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        t4.setText("15:00-17:00");
 
         javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
         jPanel13.setLayout(jPanel13Layout);
         jPanel13Layout.setHorizontalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel13Layout.createSequentialGroup()
-                .addGap(98, 98, 98)
+                .addGap(149, 149, 149)
                 .addComponent(t1)
-                .addGap(117, 117, 117)
+                .addGap(64, 64, 64)
                 .addComponent(t2)
-                .addGap(134, 134, 134)
+                .addGap(80, 80, 80)
                 .addComponent(t3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 113, Short.MAX_VALUE)
                 .addComponent(t4)
-                .addGap(50, 50, 50))
+                .addGap(45, 45, 45))
         );
         jPanel13Layout.setVerticalGroup(
             jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -363,7 +774,7 @@ public class EmploiDuTemps extends javax.swing.JFrame {
                 .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -441,7 +852,6 @@ public class EmploiDuTemps extends javax.swing.JFrame {
     private javax.swing.JLabel j5_t2;
     private javax.swing.JLabel j5_t3;
     private javax.swing.JLabel j5_t4;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -455,9 +865,12 @@ public class EmploiDuTemps extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    private javax.swing.JLabel kine_name;
     private javax.swing.JLabel t1;
     private javax.swing.JLabel t2;
     private javax.swing.JLabel t3;
     private javax.swing.JLabel t4;
     // End of variables declaration//GEN-END:variables
+
+   
 }

@@ -43,6 +43,7 @@ public class AjouterPatient extends javax.swing.JFrame {
     
     private void setMedecinToJcombo(){
         jComboBox2.removeAllItems();
+        
         unite = jComboBox1.getSelectedItem().toString();
         
         ArrayList<Medecin> medecins_par_unite = db.getMedecinParUnite(unite,getNuitOrJour());
@@ -343,15 +344,15 @@ public class AjouterPatient extends javax.swing.JFrame {
                 return;
             }
             
-            String nom_medecin_consult = nom_medecin_consult_input.getText();
+            String nom_medecin_consult = nom_medecin_consult_input.getText().trim().equals("") ? ""  :nom_medecin_consult_input.getText();
             
-            String dg = dg_input.getText();
-            String date_dg = datePicker2.getDateStringOrEmptyString();
+            String dg = dg_input.getText().trim().equals("") ? ""  :dg_input.getText();
+            String date_dg = datePicker2.getDateStringOrEmptyString().trim().equals("") ? ""  : datePicker2.getDateStringOrEmptyString();
             
             String unite = jComboBox1.getSelectedItem().toString();
          
          
-            String nom_medecin = jComboBox2.getSelectedItem().toString();
+            String nom_medecin = jComboBox2.getSelectedItem().toString().trim().equals("") ? ""  :jComboBox2.getSelectedItem().toString();
             
             int id_medecin = db.getIdMedecinFromNom(nom_medecin);
             int id_unite = db.getIdUniteFromName(unite);
