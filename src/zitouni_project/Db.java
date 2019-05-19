@@ -854,4 +854,135 @@ public class Db {
         return true;
     }
 
+    ResultSet getAllPatientByIdMedecin(int id_medecin) {
+          return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n "
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id WHERE patient.id_medecin="+id_medecin +" "
+                  + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + "ORDER BY tab2.id_personne_ DESC"
+        );
+    }
+
+    ResultSet getPatietsWithNomByIdMedecin(int id_medecin,String nom) {
+         return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n "
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id WHERE patient.id_medecin="+id_medecin +" "
+                  + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                        + " WHERE tab2.nom LIKE '%" + nom + "%'   "
+                + "ORDER BY tab2.id_personne_ DESC"
+        );
+    }
+
+    boolean updatePassword(int id_personne,String new_password) {
+        
+        
+        String hash = convertToMd5(new_password);
+                  String  query = " UPDATE `user` SET `password`=? "
+                            + " WHERE id_personne=?" ;
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt3;
+                    try {
+                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                        preparedStmt3.setString(1, hash);
+                        preparedStmt3.setInt(2, id_personne);
+                       
+                        preparedStmt3.executeUpdate();
+
+                    } catch (SQLException ex) {
+
+                        return false;
+                    }
+                    
+                    return true;
+    }
+
+    ResultSet getPatietsWithdateAndIdMedecin(int id_medecin,String day, String mois, String annee) {
+     if (day != null && mois == null && annee == null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " DAY(date_visit)=" + day,id_medecin
+            ));
+        } else if (day == null && mois != null && annee == null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " MONTH(date_visit)=" + mois,id_medecin));
+
+        } else if (day == null && mois == null && annee != null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " YEAR(date_visit)=" + annee,id_medecin));
+
+        } else if (day != null && mois != null && annee == null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " MONTH(date_visit)=" + mois
+                    + " AND DAY(date_visit)=" + day,id_medecin));
+
+        } else if (day == null && mois != null && annee != null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " MONTH(date_visit)=" + mois
+                    + " AND YEAR(date_visit)=" + annee,id_medecin));
+
+        } else if (day != null && mois == null && annee != null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin(" WHERE " + " DAY(date_visit)=" + day
+                    + " AND YEAR(date_visit)=" + annee,id_medecin));
+
+        } else if (day != null && mois != null && annee != null) {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin("WHERE MONTH(date_visit)=" + mois
+                    + " OR YEAR(date_visit)=" + annee + " OR DAY(date_visit)=" + day,id_medecin));
+
+        } else {
+            return getSelect(returnQuerySelectWithDateAndIdMedecin("",id_medecin));
+
+        }   
+    }
+    
+    
+    String returnQuerySelectWithDateAndIdMedecin(String selected,int id_medecin) {
+        String query = "SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n"
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id) tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin AND medecin.id="+id_medecin
+                + ") tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + selected
+                + " ORDER BY tab2.id_personne_ DESC";
+        return query;
+    }
+
 }

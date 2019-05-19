@@ -19,15 +19,8 @@ import zitouni_project.Object.Medecin;
 import zitouni_project.Object.Patient;
 import zitouni_project.Object.Personne;
 
-/**
- *
- * @author Yagoubi
- */
 public class MainFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainFrame
-     */
     Db db;
     ArrayList<Patient> patients;
 
@@ -184,7 +177,7 @@ public class MainFrame extends javax.swing.JFrame {
             dm.addRow(data);
             count++;
         }
-        affectation_btn.setVisible(true);
+        affectaion_and_detail_btn.setText("Affectation");
 
     }
 
@@ -218,7 +211,7 @@ public class MainFrame extends javax.swing.JFrame {
         this.personne = "medecin";
         DefaultTableModel dm = new DefaultTableModel(0, 0);
         String header[] = new String[]{"", "Nom:", "Prénom:", "Date de naissance", "Adresse", "Sexe", "Num Tel",
-             "Grade", "Profession", "Mode travail"};
+            "Grade", "Profession", "Mode travail"};
         dm.setColumnIdentifiers(header);
         jTable1.setModel(dm);
 
@@ -245,7 +238,7 @@ public class MainFrame extends javax.swing.JFrame {
             count++;
         }
 
-        affectation_btn.setVisible(false);
+        affectaion_and_detail_btn.setText("Médecin Detail");
 
     }
 
@@ -298,7 +291,7 @@ public class MainFrame extends javax.swing.JFrame {
         kButton7 = new keeptoo.KButton();
         modier_btn = new keeptoo.KButton();
         kButton9 = new keeptoo.KButton();
-        affectation_btn = new keeptoo.KButton();
+        affectaion_and_detail_btn = new keeptoo.KButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -542,10 +535,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
-        affectation_btn.setText("Affectation");
-        affectation_btn.addActionListener(new java.awt.event.ActionListener() {
+        affectaion_and_detail_btn.setText("Affectation");
+        affectaion_and_detail_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                affectation_btnActionPerformed(evt);
+                affectaion_and_detail_btnActionPerformed(evt);
             }
         });
 
@@ -567,8 +560,8 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(affectation_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(197, Short.MAX_VALUE))
+                .addComponent(affectaion_and_detail_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(204, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -581,7 +574,7 @@ public class MainFrame extends javax.swing.JFrame {
                         .addComponent(kButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(modier_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(kButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(affectation_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(affectaion_and_detail_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(kButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -634,8 +627,7 @@ public class MainFrame extends javax.swing.JFrame {
             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(kini_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2)
-                .addContainerGap())
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
         );
         kini_panelLayout.setVerticalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -676,7 +668,7 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
             .addComponent(jLayeredPane1)
         );
         jPanel1Layout.setVerticalGroup(
@@ -984,28 +976,36 @@ if (preformat != postformat) {
         getAllKine();
     }//GEN-LAST:event_kButton7ActionPerformed
 
-    private void affectation_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_affectation_btnActionPerformed
+    private void affectaion_and_detail_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_affectaion_and_detail_btnActionPerformed
 
-        try {
-            int id_kine = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
-            String mode_travail = jTable1.getValueAt(jTable1.getSelectedRow(), 7).toString();
-            if (id_kine > 0) {
-                Affectation_kine affectation_kine = new Affectation_kine();
-                
-                affectation_kine.setModeTravail(mode_travail);
-                affectation_kine.setIdKine(id_kine);
-                affectation_kine.setVisible(true);
-                
-                EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
-                emploiDuTemps.setModeTravail(mode_travail);
-                emploiDuTemps.setIdKine(id_kine);
-                emploiDuTemps.setVisible(true);
+        if (this.personne.equals("medecin")) {
+            MedecinFram medecinFram = new MedecinFram();
+            int id_medecin = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+            medecinFram.setId_medecin(id_medecin);
+            medecinFram.setVisible(true);
+        } else if (this.personne.equals("kiné")) {
+            try {
+                int id_kine = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
+                String mode_travail = jTable1.getValueAt(jTable1.getSelectedRow(), 7).toString();
+                if (id_kine > 0) {
+                    Affectation_kine affectation_kine = new Affectation_kine();
+
+                    affectation_kine.setModeTravail(mode_travail);
+                    affectation_kine.setIdKine(id_kine);
+                    affectation_kine.setVisible(true);
+
+                    EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
+                    emploiDuTemps.setModeTravail(mode_travail);
+                    emploiDuTemps.setIdKine(id_kine);
+                    emploiDuTemps.setVisible(true);
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
             }
-        } catch (Exception ex) {
-            System.out.println(ex.getMessage());
         }
 
-    }//GEN-LAST:event_affectation_btnActionPerformed
+
+    }//GEN-LAST:event_affectaion_and_detail_btnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1045,7 +1045,7 @@ if (preformat != postformat) {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel accueil_panel;
-    private keeptoo.KButton affectation_btn;
+    private keeptoo.KButton affectaion_and_detail_btn;
     private javax.swing.JTextField input_name_serch;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

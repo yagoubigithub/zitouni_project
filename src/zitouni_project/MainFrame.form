@@ -46,7 +46,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="17" max="32767" attributes="0"/>
               </Group>
               <Component id="jLayeredPane1" max="32767" attributes="0"/>
           </Group>
@@ -381,8 +381,7 @@
                       <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" pref="987" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -422,8 +421,8 @@
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="kButton9" min="-2" pref="101" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="affectation_btn" min="-2" pref="100" max="-2" attributes="0"/>
-                              <EmptySpace pref="197" max="32767" attributes="0"/>
+                              <Component id="affectaion_and_detail_btn" min="-2" pref="100" max="-2" attributes="0"/>
+                              <EmptySpace pref="204" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -438,7 +437,7 @@
                                       <Component id="kButton7" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                       <Component id="modier_btn" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                                       <Component id="kButton9" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
-                                      <Component id="affectation_btn" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Component id="affectaion_and_detail_btn" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                                   </Group>
                                   <Component id="kButton4" min="-2" pref="34" max="-2" attributes="0"/>
                               </Group>
@@ -496,12 +495,12 @@
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kButton9ActionPerformed"/>
                       </Events>
                     </Component>
-                    <Component class="keeptoo.KButton" name="affectation_btn">
+                    <Component class="keeptoo.KButton" name="affectaion_and_detail_btn">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Affectation"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="affectation_btnActionPerformed"/>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="affectaion_and_detail_btnActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

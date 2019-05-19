@@ -6,10 +6,10 @@
 package zitouni_project;
 
 import java.awt.GridLayout;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import zitouni_project.Object.Patient;
     import com.wildcrest.j2printerworks.*; 
+import javax.swing.JPanel;
 
 
 public class ImprimePatients2 extends javax.swing.JFrame  {
@@ -170,7 +170,13 @@ public class ImprimePatients2 extends javax.swing.JFrame  {
        J2Printer printer = new J2Printer(); 
         printer.setSeparatePrintThread(false); 
         
-        J2PanelPrinter panelPrinter = new J2PanelPrinter(pages.get(0)); 
+        JPanel panel = new JPanel();
+        for (int i = 0; i < pages.size(); i++) {
+           
+            panel.add(pages.get(i));
+            
+        }
+        J2PanelPrinter panelPrinter = new J2PanelPrinter(panel); 
         panelPrinter.setPageRule(J2PanelPrinter.BREAK_ON_COMPONENTS);
         printer.addPageable(panelPrinter); 
        
