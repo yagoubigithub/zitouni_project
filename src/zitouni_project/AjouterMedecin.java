@@ -317,11 +317,13 @@ public class AjouterMedecin extends javax.swing.JFrame {
             String mode_travail = jComboBox3.getSelectedItem().toString();
             
             int id_unite = db.getIdUniteFromName(unite);
-            isSave = db.insertMedecin(nom, prenom, date_naissance, adresse, sexe,
+           int id_personne = db.insertMedecin(nom, prenom, date_naissance, adresse, sexe,
                     tele, id_unite,grad,profession,mode_travail);
             
-            if(isSave){
-            dispose();
+            if(id_personne > 0){
+                boolean IsUserSave = db.insertUser(id_personne, "medecin");
+                if(IsUserSave)
+                   dispose();
             }
         
          

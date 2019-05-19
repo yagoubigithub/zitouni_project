@@ -140,10 +140,10 @@ public class Affectation_kine extends javax.swing.JFrame {
         j5_t.setText(dtf.format(j5));
 
         //jour 1 
-        Patient patient_in_seance1_j1 = db.getPatientParDateSuiviAndTime(dtf.format(j1), time1.getText().toString().split("-")[0]);
-        Patient patient_in_seance2_j1 = db.getPatientParDateSuiviAndTime(dtf.format(j1), time2.getText().toString().split("-")[0]);
-        Patient patient_in_seance3_j1 = db.getPatientParDateSuiviAndTime(dtf.format(j1), time3.getText().toString().split("-")[0]);
-        Patient patient_in_seance4_j1 = db.getPatientParDateSuiviAndTime(dtf.format(j1), time4.getText().toString().split("-")[0]);
+        Patient patient_in_seance1_j1 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j1), time1.getText().toString().split("-")[0]);
+        Patient patient_in_seance2_j1 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j1), time2.getText().toString().split("-")[0]);
+        Patient patient_in_seance3_j1 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j1), time3.getText().toString().split("-")[0]);
+        Patient patient_in_seance4_j1 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j1), time4.getText().toString().split("-")[0]);
 
         l_d_t_1.setText(patient_in_seance1_j1 != null ? patient_in_seance1_j1.getNom() + " " + patient_in_seance1_j1.getPrenom() : "");
         l_d_t_2.setText(patient_in_seance2_j1 != null ? patient_in_seance2_j1.getNom() + " " + patient_in_seance2_j1.getPrenom() : "");
@@ -151,10 +151,10 @@ public class Affectation_kine extends javax.swing.JFrame {
         l_d_t_4.setText(patient_in_seance4_j1 != null ? patient_in_seance4_j1.getNom() + " " + patient_in_seance4_j1.getPrenom() : "");
 
         //jour 2
-        Patient patient_in_seance1_j2 = db.getPatientParDateSuiviAndTime(dtf.format(j2), time1.getText().toString().split("-")[0]);
-        Patient patient_in_seance2_j2 = db.getPatientParDateSuiviAndTime(dtf.format(j2), time2.getText().toString().split("-")[0]);
-        Patient patient_in_seance3_j2 = db.getPatientParDateSuiviAndTime(dtf.format(j2), time3.getText().toString().split("-")[0]);
-        Patient patient_in_seance4_j2 = db.getPatientParDateSuiviAndTime(dtf.format(j2), time4.getText().toString().split("-")[0]);
+        Patient patient_in_seance1_j2 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j2), time1.getText().toString().split("-")[0]);
+        Patient patient_in_seance2_j2 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j2), time2.getText().toString().split("-")[0]);
+        Patient patient_in_seance3_j2 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j2), time3.getText().toString().split("-")[0]);
+        Patient patient_in_seance4_j2 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j2), time4.getText().toString().split("-")[0]);
 
         l_l_t_1.setText(patient_in_seance1_j2 != null ? patient_in_seance1_j2.getNom() + " " + patient_in_seance1_j2.getPrenom() : "");
         l_l_t_2.setText(patient_in_seance2_j2 != null ? patient_in_seance2_j2.getNom() + " " + patient_in_seance2_j2.getPrenom() : "");
@@ -162,10 +162,10 @@ public class Affectation_kine extends javax.swing.JFrame {
         l_l_t_4.setText(patient_in_seance4_j2 != null ? patient_in_seance4_j2.getNom() + " " + patient_in_seance4_j2.getPrenom() : "");
 
         //jour 3
-        Patient patient_in_seance1_j3 = db.getPatientParDateSuiviAndTime(dtf.format(j3), time1.getText().toString().split("-")[0]);
-        Patient patient_in_seance2_j3 = db.getPatientParDateSuiviAndTime(dtf.format(j3), time2.getText().toString().split("-")[0]);
-        Patient patient_in_seance3_j3 = db.getPatientParDateSuiviAndTime(dtf.format(j3), time3.getText().toString().split("-")[0]);
-        Patient patient_in_seance4_j3 = db.getPatientParDateSuiviAndTime(dtf.format(j3), time4.getText().toString().split("-")[0]);
+        Patient patient_in_seance1_j3 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j3), time1.getText().toString().split("-")[0]);
+        Patient patient_in_seance2_j3 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j3), time2.getText().toString().split("-")[0]);
+        Patient patient_in_seance3_j3 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j3), time3.getText().toString().split("-")[0]);
+        Patient patient_in_seance4_j3 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j3), time4.getText().toString().split("-")[0]);
 
         l_ma_t_1.setText(patient_in_seance1_j3 != null ? patient_in_seance1_j3.getNom() + " " + patient_in_seance1_j3.getPrenom() : "");
         l_ma_t_2.setText(patient_in_seance2_j3 != null ? patient_in_seance2_j3.getNom() + " " + patient_in_seance2_j3.getPrenom() : "");
@@ -173,10 +173,10 @@ public class Affectation_kine extends javax.swing.JFrame {
         l_ma_t_4.setText(patient_in_seance4_j3 != null ? patient_in_seance4_j3.getNom() + " " + patient_in_seance4_j3.getPrenom() : "");
 
         //jour 4
-        Patient patient_in_seance1_j4 = db.getPatientParDateSuiviAndTime(dtf.format(j4), time1.getText().toString().split("-")[0]);
-        Patient patient_in_seance2_j4 = db.getPatientParDateSuiviAndTime(dtf.format(j4), time2.getText().toString().split("-")[0]);
-        Patient patient_in_seance3_j4 = db.getPatientParDateSuiviAndTime(dtf.format(j4), time3.getText().toString().split("-")[0]);
-        Patient patient_in_seance4_j4 = db.getPatientParDateSuiviAndTime(dtf.format(j4), time4.getText().toString().split("-")[0]);
+        Patient patient_in_seance1_j4 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j4), time1.getText().toString().split("-")[0]);
+        Patient patient_in_seance2_j4 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j4), time2.getText().toString().split("-")[0]);
+        Patient patient_in_seance3_j4 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j4), time3.getText().toString().split("-")[0]);
+        Patient patient_in_seance4_j4 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j4), time4.getText().toString().split("-")[0]);
 
         l_me_t_1.setText(patient_in_seance1_j4 != null ? patient_in_seance1_j4.getNom() + " " + patient_in_seance1_j4.getPrenom() : "");
         l_me_t_2.setText(patient_in_seance2_j4 != null ? patient_in_seance2_j4.getNom() + " " + patient_in_seance2_j4.getPrenom() : "");
@@ -184,10 +184,10 @@ public class Affectation_kine extends javax.swing.JFrame {
         l_me_t_4.setText(patient_in_seance4_j4 != null ? patient_in_seance4_j4.getNom() + " " + patient_in_seance4_j4.getPrenom() : "");
 
         //jour 5
-        Patient patient_in_seance1_j5 = db.getPatientParDateSuiviAndTime(dtf.format(j5), time1.getText().toString().split("-")[0]);
-        Patient patient_in_seance2_j5 = db.getPatientParDateSuiviAndTime(dtf.format(j5), time2.getText().toString().split("-")[0]);
-        Patient patient_in_seance3_j5 = db.getPatientParDateSuiviAndTime(dtf.format(j5), time3.getText().toString().split("-")[0]);
-        Patient patient_in_seance4_j5 = db.getPatientParDateSuiviAndTime(dtf.format(j5), time4.getText().toString().split("-")[0]);
+        Patient patient_in_seance1_j5 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j5), time1.getText().toString().split("-")[0]);
+        Patient patient_in_seance2_j5 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j5), time2.getText().toString().split("-")[0]);
+        Patient patient_in_seance3_j5 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j5), time3.getText().toString().split("-")[0]);
+        Patient patient_in_seance4_j5 = db.getPatientParDateSuiviAndTime(id_kine,dtf.format(j5), time4.getText().toString().split("-")[0]);
 
         l_j_t_1.setText(patient_in_seance1_j5 != null ? patient_in_seance1_j5.getNom() + " " + patient_in_seance1_j5.getPrenom() : "");
         l_j_t_2.setText(patient_in_seance2_j5 != null ? patient_in_seance2_j5.getNom() + " " + patient_in_seance2_j5.getPrenom() : "");
@@ -937,7 +937,6 @@ public class Affectation_kine extends javax.swing.JFrame {
         j_c_2 = new javax.swing.JComboBox<>();
         j_c_3 = new javax.swing.JComboBox<>();
         j_c_4 = new javax.swing.JComboBox<>();
-        kButton1 = new keeptoo.KButton();
         l_d_t_1 = new javax.swing.JLabel();
         l_d_t_2 = new javax.swing.JLabel();
         l_d_t_3 = new javax.swing.JLabel();
@@ -1029,8 +1028,6 @@ public class Affectation_kine extends javax.swing.JFrame {
 
         j_c_4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        kButton1.setText("Enregesterie");
-
         l_d_t_1.setText("jLabel10");
 
         l_d_t_2.setText("jLabel11");
@@ -1085,67 +1082,62 @@ public class Affectation_kine extends javax.swing.JFrame {
                     .addComponent(j5_t))
                 .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(d_c_1, 0, 132, Short.MAX_VALUE)
+                        .addComponent(time1)
+                        .addComponent(l_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ma_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(me_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(j_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(l_d_t_1)
+                    .addComponent(l_l_t_1)
+                    .addComponent(l_ma_t_1)
+                    .addComponent(l_me_t_1)
+                    .addComponent(l_j_t_1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(l_j_t_2)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(d_c_2, 0, 130, Short.MAX_VALUE)
+                        .addComponent(time2)
+                        .addComponent(l_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ma_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(me_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(j_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(l_d_t_2)
+                    .addComponent(l_l_t_2)
+                    .addComponent(l_ma_t_2)
+                    .addComponent(l_me_t_2))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(l_j_t_3)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(d_c_3, 0, 131, Short.MAX_VALUE)
+                        .addComponent(time3)
+                        .addComponent(l_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(ma_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(me_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(j_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(l_d_t_3)
+                    .addComponent(l_l_t_3)
+                    .addComponent(l_ma_t_3)
+                    .addComponent(l_me_t_3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(d_c_4, 0, 129, Short.MAX_VALUE)
+                    .addComponent(l_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ma_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(me_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(j_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(d_c_1, 0, 132, Short.MAX_VALUE)
-                                .addComponent(time1)
-                                .addComponent(l_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ma_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(me_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(j_c_1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(l_d_t_1)
-                            .addComponent(l_l_t_1)
-                            .addComponent(l_ma_t_1)
-                            .addComponent(l_me_t_1)
-                            .addComponent(l_j_t_1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(l_j_t_2)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(d_c_2, 0, 130, Short.MAX_VALUE)
-                                .addComponent(time2)
-                                .addComponent(l_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ma_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(me_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(j_c_2, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(l_d_t_2)
-                            .addComponent(l_l_t_2)
-                            .addComponent(l_ma_t_2)
-                            .addComponent(l_me_t_2))
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(l_j_t_3)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(d_c_3, 0, 131, Short.MAX_VALUE)
-                                .addComponent(time3)
-                                .addComponent(l_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ma_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(me_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(j_c_3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(l_d_t_3)
-                            .addComponent(l_l_t_3)
-                            .addComponent(l_ma_t_3)
-                            .addComponent(l_me_t_3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(d_c_4, 0, 129, Short.MAX_VALUE)
-                            .addComponent(l_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(ma_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(me_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(j_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(l_j_t_4)
-                                    .addComponent(l_me_t_4)
-                                    .addComponent(l_ma_t_4)
-                                    .addComponent(l_l_t_4)
-                                    .addComponent(l_d_t_4)
-                                    .addComponent(time4))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                            .addComponent(l_j_t_4)
+                            .addComponent(l_me_t_4)
+                            .addComponent(l_ma_t_4)
+                            .addComponent(l_l_t_4)
+                            .addComponent(l_d_t_4)
+                            .addComponent(time4))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -1228,9 +1220,7 @@ public class Affectation_kine extends javax.swing.JFrame {
                             .addComponent(l_j_t_4)
                             .addComponent(l_j_t_3)
                             .addComponent(l_j_t_2))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(5, 5, 5))
+                .addGap(38, 38, 38))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1306,7 +1296,6 @@ public class Affectation_kine extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> j_c_2;
     private javax.swing.JComboBox<String> j_c_3;
     private javax.swing.JComboBox<String> j_c_4;
-    private keeptoo.KButton kButton1;
     private javax.swing.JComboBox<String> l_c_1;
     private javax.swing.JComboBox<String> l_c_2;
     private javax.swing.JComboBox<String> l_c_3;

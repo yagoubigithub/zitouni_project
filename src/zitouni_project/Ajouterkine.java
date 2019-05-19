@@ -249,10 +249,13 @@ public class Ajouterkine extends javax.swing.JFrame {
         String mode_travail = jComboBox3.getSelectedItem().toString();
 
        
-        isSave = db.insertkine(nom, prenom, date_naissance, adresse, sexe,
+        int id_personne = db.insertkine(nom, prenom, date_naissance, adresse, sexe,
             tele,mode_travail);
 
-        if(isSave){
+        if(id_personne > 0){
+            
+             boolean IsUserSave = db.insertUser(id_personne, "kinésithérapie");
+             if(IsUserSave)
             dispose();
         }
 

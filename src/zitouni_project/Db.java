@@ -155,8 +155,7 @@ public class Db {
 
     }
 
-    String Auth(String nom, String password) {
-        String type = "no";
+    String convertToMd5(String password){
         String md5 = "";
         try {
 
@@ -167,6 +166,11 @@ public class Db {
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return md5;
+    }
+    String Auth(String nom, String password) {
+        String type = "no";
+        String md5 = convertToMd5(password);
 
         ResultSet res = getSelect("SELECT * FROM user JOIN personne ON user.id_personne=personne.id WHERE personne.nom='" + nom + "'  AND user.password='" + md5 + "' LIMIT 1");
         try {
@@ -357,9 +361,10 @@ public class Db {
         // execute the preparedstatement
     }
 
-    boolean insertMedecin(String nom, String prenom, String date_naissance, String adresse,
+    int insertMedecin(String nom, String prenom, String date_naissance, String adresse,
             String sexe, String tele, int id_unite, String grad, String profession, String mode_travail) {
 
+        int id_personne = -1;
         String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
                 + " values (?, ?, ?, ?, ? , ?)";
 
@@ -375,7 +380,7 @@ public class Db {
             preparedStmt.setString(6, tele);
 
             preparedStmt.executeUpdate();
-            int id_personne = 0;
+            
             ResultSet rs = preparedStmt.getGeneratedKeys();
             while (rs.next()) {
                 id_personne = rs.getInt(1);
@@ -407,21 +412,22 @@ public class Db {
                     System.out.println(id_medecin + "  id_medecin");
                 } catch (SQLException ex) {
 
-                    return false;
+                    return -1;
                 }
 
             }
 
         } catch (SQLException ex) {
 
-            return false;
+            return -1;
         }
-        return true;
+        return id_personne;
 
     }
 
-    boolean insertkine(String nom, String prenom, String date_naissance, String adresse, String sexe, String tele, String mode_travail) {
+    int insertkine(String nom, String prenom, String date_naissance, String adresse, String sexe, String tele, String mode_travail) {
 
+        int id_personne = -1;
         String query = " insert into personne (`nom`, `prenom`, `date_naissance`, `adresse`, `sexe`, `num_tel`)"
                 + " values (?, ?, ?, ?, ? , ?)";
         PreparedStatement preparedStmt;
@@ -435,7 +441,7 @@ public class Db {
             preparedStmt.setString(6, tele);
 
             preparedStmt.executeUpdate();
-            int id_personne = 0;
+           
             ResultSet rs = preparedStmt.getGeneratedKeys();
             while (rs.next()) {
                 id_personne = rs.getInt(1);
@@ -466,16 +472,16 @@ public class Db {
                 } catch (SQLException ex) {
 
                     System.out.println(ex.getMessage());
-                    return false;
+                    return -1;
                 }
 
             }
 
         } catch (SQLException ex) {
 
-            return false;
+            return -1;
         }
-        return true;
+        return id_personne;
 
     }
 
@@ -683,7 +689,7 @@ public class Db {
         );
     }
 
-    Patient getPatientParDateSuiviAndTime(String data_suivi, String heure) {
+    Patient getPatientParDateSuiviAndTime(int id_kine  ,String data_suivi, String heure) {
         Patient patient = null;
         ResultSet res = getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
                 + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
@@ -700,7 +706,7 @@ public class Db {
                 + "                ON lettre.id_unite=unite.id "
                 + "AND unite.nom='kinésithérapie' "
                 + "JOIN suivi "
-                + "ON suivi.id_patient=patient.id AND suivi.date='" + data_suivi + "' AND suivi.heure='" + heure + "' "
+                + "ON suivi.id_patient=patient.id AND suivi.date='" + data_suivi + "' AND suivi.heure='" + heure + "' AND suivi.id_kine="+id_kine+" "
                 + ") tab1\n"
                 + "JOIN medecin\n"
                 + "ON medecin.id=tab1.id_medecin) tab2\n"
@@ -812,6 +818,40 @@ public class Db {
             Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
         }
         return kine;
+    }
+
+    boolean insertUser(int id_personne, String unite) {
+       
+        
+        
+            
+            if (id_personne > 0) {
+                // add to medecin table
+
+             String   query = " INSERT INTO `user`( `id_personne`, `type`, `password`)"
+                        + " values (? , ? , ? )";
+
+                // create the mysql insert preparedstatement
+                PreparedStatement preparedStmt3;
+                try {
+                    String type = unite.equals("medecin") ? "medecin" : unite + "_agent";
+                    String hash = convertToMd5("123");
+                    preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                    preparedStmt3.setInt(1, id_personne);
+                    preparedStmt3.setString(2, type);
+                    preparedStmt3.setString(3, hash);
+                   
+                    preparedStmt3.executeUpdate();
+                   
+                    
+                }  catch (SQLException ex) {
+
+                    return false;
+                }
+            }
+        
+        
+        return true;
     }
 
 }
