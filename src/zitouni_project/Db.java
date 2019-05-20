@@ -182,6 +182,36 @@ public class Db {
         }
         return type;
     }
+    
+     int getIdPersonneFromUsers(String nom, String password) {
+       int id_personne = -1;
+        String md5 = convertToMd5(password);
+
+        ResultSet res = getSelect("SELECT * FROM user JOIN personne ON user.id_personne=personne.id WHERE personne.nom='" + nom + "'  AND user.password='" + md5 + "' LIMIT 1");
+        try {
+            while (res.next()) {
+                id_personne = res.getInt("id_personne");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_personne;
+    }
+
+       int getIdMedecinFomrIdpersonne(int id_personne) {
+       int id_medecin = -1;
+      
+
+        ResultSet res = getSelect("SELECT * FROM medecin WHERE id_personne="+id_personne);
+        try {
+            while (res.next()) {
+                id_medecin = res.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_medecin;
+    }
 
     public boolean insertPatient(String nom, String prenom, String date_naissance,
             String adresse, String sexe, String num_tel, int nmbr_seance,
@@ -983,6 +1013,21 @@ public class Db {
                 + selected
                 + " ORDER BY tab2.id_personne_ DESC";
         return query;
+    }
+
+    int getIdKineFromIdPersonne(int id_personne) {
+      int id_kine = -1;
+      
+
+        ResultSet res = getSelect("SELECT * FROM kine WHERE id_personne="+id_personne);
+        try {
+            while (res.next()) {
+                id_kine = res.getInt("id");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_kine;  
     }
 
 }

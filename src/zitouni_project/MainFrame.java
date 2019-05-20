@@ -21,6 +21,8 @@ import zitouni_project.Object.Personne;
 
 public class MainFrame extends javax.swing.JFrame {
 
+    
+    String type_user;
     Db db;
     ArrayList<Patient> patients;
 
@@ -28,6 +30,28 @@ public class MainFrame extends javax.swing.JFrame {
     ArrayList<Medecin> medecins;
     String personne = "medecin";
 
+    
+    
+    
+    public void setType_User(String type_user){
+        this.type_user = type_user;
+        
+        switch(type_user){
+            case "chef de service":
+            kine_btn.setVisible(true);
+            break;
+            
+            case "Réceptionniste" :
+                kine_btn.setVisible(false);
+                accueil_btn.setVisible(false);
+                psycho_btn.setVisible(false);
+                ergoth_btn.setVisible(false);
+                 orthophonie_btn.setVisible(false);
+                  psychom_btn.setVisible(false);
+                   telend_btn.setVisible(false);
+                break;
+        }
+    }
     public void searchPatientsWitheNom(String nom) {
         ResultSet res = db.getPatietsWithNom(nom);
         try {
@@ -269,9 +293,13 @@ public class MainFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        kButton1 = new keeptoo.KButton();
-        kButton2 = new keeptoo.KButton();
-        kButton3 = new keeptoo.KButton();
+        accueil_btn = new keeptoo.KButton();
+        kine_btn = new keeptoo.KButton();
+        psycho_btn = new keeptoo.KButton();
+        ergoth_btn = new keeptoo.KButton();
+        orthophonie_btn = new keeptoo.KButton();
+        psychom_btn = new keeptoo.KButton();
+        telend_btn = new keeptoo.KButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         accueil_panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -301,23 +329,30 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(new mdlaf.shadows.DropShadowBorder());
 
-        kButton1.setText("Accueill");
-        kButton1.addActionListener(new java.awt.event.ActionListener() {
+        accueil_btn.setText("Accueill");
+        accueil_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kButton1ActionPerformed(evt);
+                accueil_btnActionPerformed(evt);
             }
         });
 
-        kButton2.setText("kiné");
-        kButton2.addActionListener(new java.awt.event.ActionListener() {
+        kine_btn.setText(" kinésithérapie");
+        kine_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kButton2ActionPerformed(evt);
+                kine_btnActionPerformed(evt);
             }
         });
 
-        kButton3.setText("kButton3");
+        psycho_btn.setText("psychologie");
+
+        ergoth_btn.setText("ergothérapie");
+
+        orthophonie_btn.setText("orthophonie");
+
+        psychom_btn.setText("psychométrie");
+
+        telend_btn.setText("Talend");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -325,21 +360,37 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(accueil_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(kine_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(kButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(627, Short.MAX_VALUE))
+                .addComponent(psycho_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ergoth_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(orthophonie_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(psychom_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(telend_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(orthophonie_btn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(psychom_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(telend_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(accueil_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(kine_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(psycho_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ergoth_btn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -453,7 +504,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jLabel6)
                 .addGap(42, 42, 42)
                 .addComponent(input_name_serch, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(484, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -489,9 +540,6 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         kini_panel.setBackground(new java.awt.Color(255, 255, 255));
-        kini_panel.setBorder(new mdlaf.shadows.DropShadowBorder());
-
-        jPanel4.setBorder(new mdlaf.shadows.DropShadowBorder());
 
         kButton4.setText("Ajouter Medecin");
         kButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -561,7 +609,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(kButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(affectaion_and_detail_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(227, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -624,18 +672,19 @@ public class MainFrame extends javax.swing.JFrame {
         kini_panel.setLayout(kini_panelLayout);
         kini_panelLayout.setHorizontalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(kini_panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 987, Short.MAX_VALUE))
+                .addComponent(jScrollPane2))
+            .addGroup(kini_panelLayout.createSequentialGroup()
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 7, Short.MAX_VALUE))
         );
         kini_panelLayout.setVerticalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kini_panelLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 40, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 467, Short.MAX_VALUE))
         );
 
         jLayeredPane1.setLayer(accueil_panel, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -666,10 +715,8 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
             .addComponent(jLayeredPane1)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -693,7 +740,7 @@ public class MainFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void kButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton1ActionPerformed
+    private void accueil_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accueil_btnActionPerformed
 
         showPanel("accueil");
         /*  
@@ -713,13 +760,13 @@ if (preformat != postformat) {
         }
     }
 }*/
-    }//GEN-LAST:event_kButton1ActionPerformed
+    }//GEN-LAST:event_accueil_btnActionPerformed
 
-    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
+    private void kine_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kine_btnActionPerformed
         // TODO add your handling code here:
 
         showPanel("kini");
-    }//GEN-LAST:event_kButton2ActionPerformed
+    }//GEN-LAST:event_kine_btnActionPerformed
 
     private void input_name_serchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_input_name_serchActionPerformed
         // TODO add your handling code here:
@@ -1044,8 +1091,10 @@ if (preformat != postformat) {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private keeptoo.KButton accueil_btn;
     private javax.swing.JPanel accueil_panel;
     private keeptoo.KButton affectaion_and_detail_btn;
+    private keeptoo.KButton ergoth_btn;
     private javax.swing.JTextField input_name_serch;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -1061,15 +1110,17 @@ if (preformat != postformat) {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jtable1;
-    private keeptoo.KButton kButton1;
-    private keeptoo.KButton kButton2;
-    private keeptoo.KButton kButton3;
     private keeptoo.KButton kButton4;
     private keeptoo.KButton kButton5;
     private keeptoo.KButton kButton6;
     private keeptoo.KButton kButton7;
     private keeptoo.KButton kButton9;
+    private keeptoo.KButton kine_btn;
     private javax.swing.JPanel kini_panel;
     private keeptoo.KButton modier_btn;
+    private keeptoo.KButton orthophonie_btn;
+    private keeptoo.KButton psycho_btn;
+    private keeptoo.KButton psychom_btn;
+    private keeptoo.KButton telend_btn;
     // End of variables declaration//GEN-END:variables
 }

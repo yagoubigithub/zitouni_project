@@ -44,11 +44,8 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" attributes="0">
-                  <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="17" max="32767" attributes="0"/>
-              </Group>
               <Component id="jLayeredPane1" max="32767" attributes="0"/>
+              <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
@@ -67,9 +64,6 @@
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                <PropertyBean type="mdlaf.shadows.DropShadowBorder"/>
-            </Property>
           </Properties>
 
           <Layout>
@@ -77,23 +71,42 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="kButton1" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="accueil_btn" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="kButton2" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="kine_btn" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="kButton3" min="-2" pref="112" max="-2" attributes="0"/>
-                      <EmptySpace pref="627" max="32767" attributes="0"/>
+                      <Component id="psycho_btn" min="-2" pref="112" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="ergoth_btn" min="-2" pref="102" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="orthophonie_btn" min="-2" pref="106" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="psychom_btn" min="-2" pref="108" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="telend_btn" min="-2" pref="117" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="kButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="kButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="kButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="orthophonie_btn" alignment="3" max="32767" attributes="0"/>
+                              <Component id="psychom_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="telend_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="3" attributes="0">
+                                  <Component id="accueil_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="kine_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="psycho_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="ergoth_btn" alignment="3" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -101,25 +114,45 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="keeptoo.KButton" name="kButton1">
+            <Component class="keeptoo.KButton" name="accueil_btn">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Accueill"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="accueil_btnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="keeptoo.KButton" name="kButton2">
+            <Component class="keeptoo.KButton" name="kine_btn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="kin&#xe9;"/>
+                <Property name="text" type="java.lang.String" value=" kin&#xe9;sith&#xe9;rapie"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kButton2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kine_btnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="keeptoo.KButton" name="kButton3">
+            <Component class="keeptoo.KButton" name="psycho_btn">
               <Properties>
-                <Property name="text" type="java.lang.String" value="kButton3"/>
+                <Property name="text" type="java.lang.String" value="psychologie"/>
+              </Properties>
+            </Component>
+            <Component class="keeptoo.KButton" name="ergoth_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="ergoth&#xe9;rapie"/>
+              </Properties>
+            </Component>
+            <Component class="keeptoo.KButton" name="orthophonie_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="orthophonie"/>
+              </Properties>
+            </Component>
+            <Component class="keeptoo.KButton" name="psychom_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="psychom&#xe9;trie"/>
+              </Properties>
+            </Component>
+            <Component class="keeptoo.KButton" name="telend_btn">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Talend"/>
               </Properties>
             </Component>
           </SubComponents>
@@ -235,7 +268,7 @@
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                               <Component id="input_name_serch" min="-2" pref="227" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="484" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -370,18 +403,18 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
-                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                    <PropertyBean type="mdlaf.shadows.DropShadowBorder"/>
-                </Property>
               </Properties>
 
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="987" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="7" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -390,19 +423,13 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="40" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="467" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="jPanel4">
-                  <Properties>
-                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                        <PropertyBean type="mdlaf.shadows.DropShadowBorder"/>
-                    </Property>
-                  </Properties>
 
                   <Layout>
                     <DimensionLayout dim="0">
@@ -422,7 +449,7 @@
                               <Component id="kButton9" min="-2" pref="101" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="affectaion_and_detail_btn" min="-2" pref="100" max="-2" attributes="0"/>
-                              <EmptySpace pref="204" max="32767" attributes="0"/>
+                              <EmptySpace pref="227" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>

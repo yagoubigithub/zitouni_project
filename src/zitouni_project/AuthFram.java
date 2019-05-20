@@ -5,19 +5,21 @@
  */
 package zitouni_project;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Yagoubi
  */
 public class AuthFram extends javax.swing.JFrame {
+    
+    Db db;
 
-   Db db;
     public AuthFram() {
         initComponents();
         db = new Db();
         jPanel1.setOpaque(false);
-
-
+        
     }
 
     /**
@@ -110,27 +112,47 @@ public class AuthFram extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void kButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton1ActionPerformed
-       
         
-        String nom = jTextField1.getText() ;
-        String password = jPasswordField1.getText() ;
+        String nom = jTextField1.getText();
+        String password = jPasswordField1.getText();
         String type = db.Auth(nom, password);
-        if(type.equals("no")){
+        if (type.equals("no")) {
             //Affiche dialoge  error nom or password
-        }else if(type.equals("Réceptionniste")){
-            // Jframe Réceptionniste
-            //MainFrame
-            MainFrame mf = new MainFrame();
-            mf.setVisible(true);
+            
+            JOptionPane.showMessageDialog(this, 
+         "le nom ou le mot de passe incorect",
+         " Erreur ",
+         JOptionPane.WARNING_MESSAGE);
+            jTextField1.setText("");
+            jPasswordField1.setText("");
+        }  else if (type.equals("medecin")) {
+            //Médecin
+            int id_personne = db.getIdPersonneFromUsers(nom, password);
+            int id_medecin = db.getIdMedecinFomrIdpersonne(id_personne);
+            
+            MedecinFram medecinFram = new MedecinFram();
+            medecinFram.setId_medecin(id_medecin);
+            medecinFram.setVisible(true);
+            
+            dispose();
+        } else if (type.equals("kinésithérapie_agent")) {
+            //Kiné
+            int id_personne = db.getIdPersonneFromUsers(nom, password);
+            int id_kine = db.getIdKineFromIdPersonne(id_personne);
+            
+            EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
+            emploiDuTemps.setIdKine(id_kine);
+            emploiDuTemps.setVisible(true);   
             dispose();
         }else{
-            //MainFrame
+             //MainFrame
             MainFrame mf = new MainFrame();
+            mf.setType_User(type);
             mf.setVisible(true);
             dispose();
         }
         
-       
+
     }//GEN-LAST:event_kButton1ActionPerformed
 
     /**
