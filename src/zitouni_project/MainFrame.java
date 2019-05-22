@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import zitouni_project.Object.Kine;
 import zitouni_project.Object.Medecin;
@@ -28,7 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     ArrayList<Kine> kines;
     ArrayList<Medecin> medecins;
-    String personne = "medecin";
+    String personne = "patient";
 
     
     
@@ -82,6 +83,7 @@ public class MainFrame extends javax.swing.JFrame {
             case "kini": {
                 accueil_panel.setVisible(false);
                 kini_panel.setVisible(true);
+                this.personne = "medecin";
 
             }
             break;
@@ -100,7 +102,7 @@ public class MainFrame extends javax.swing.JFrame {
         DefaultTableModel dm = new DefaultTableModel(0, 0);
         String header[] = new String[]{"", "Nom:", "Prénom:", "Dg:", "Séancec:", "Médecin", "Date visit"};
         dm.setColumnIdentifiers(header);
-        jtable1.setModel(dm);
+        patient_table.setModel(dm);
 
         int count = 1;
 
@@ -279,6 +281,7 @@ public class MainFrame extends javax.swing.JFrame {
         getAllPatients();
         //  getAllKine();
         getAllMedecins();
+        this.personne = "patient";
 
     }
 
@@ -303,7 +306,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         accueil_panel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtable1 = new javax.swing.JTable();
+        patient_table = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -398,7 +401,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         accueil_panel.setBackground(new java.awt.Color(253, 253, 253));
 
-        jtable1.setModel(new javax.swing.table.DefaultTableModel(
+        patient_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -409,12 +412,12 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jtable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        patient_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jtable1MouseClicked(evt);
+                patient_tableMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jtable1);
+        jScrollPane1.setViewportView(patient_table);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(new mdlaf.shadows.DropShadowBorder());
@@ -443,18 +446,23 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-loop-black-36\\1x\\baseline_loop_black_36dp.png")); // NOI18N
         jLabel4.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel4MouseClicked(evt);
+            }
+        });
 
         jLabel5.setBackground(new java.awt.Color(230, 230, 230));
         jLabel5.setIcon(new javax.swing.ImageIcon("C:\\Users\\Yagoubi\\Desktop\\icons_patients\\baseline-assignment-black-36\\1x\\baseline_assignment_black_36dp.png")); // NOI18N
         jLabel5.setBorder(new mdlaf.shadows.DropShadowBorder());
         jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel5.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 jLabel5AncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -677,7 +685,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jScrollPane2))
             .addGroup(kini_panelLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 7, Short.MAX_VALUE))
+                .addGap(0, 22, Short.MAX_VALUE))
         );
         kini_panelLayout.setVerticalGroup(
             kini_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -857,14 +865,14 @@ if (preformat != postformat) {
 
     }//GEN-LAST:event_jLabel6MouseClicked
 
-    private void jtable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtable1MouseClicked
-        System.out.println(jtable1.getValueAt(jtable1.getSelectedRow(), 0).toString());
-    }//GEN-LAST:event_jtable1MouseClicked
+    private void patient_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_patient_tableMouseClicked
+        
+    }//GEN-LAST:event_patient_tableMouseClicked
 
     private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
 
         try {
-            int id_patient = Integer.parseInt(jtable1.getValueAt(jtable1.getSelectedRow(), 0).toString());
+            int id_patient = Integer.parseInt(patient_table.getValueAt(patient_table.getSelectedRow(), 0).toString());
             boolean isDelete = db.deletePatient(id_patient);
             if (isDelete) {
                 getAllPatients();
@@ -934,7 +942,7 @@ if (preformat != postformat) {
     }//GEN-LAST:event_jTable1KeyTyped
 
     private void modier_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modier_btnActionPerformed
-        System.out.println("hello world keypressed");
+       
 
         if (personne.equals("medecin")) {
             try {
@@ -1029,6 +1037,8 @@ if (preformat != postformat) {
             MedecinFram medecinFram = new MedecinFram();
             int id_medecin = Integer.parseInt(jTable1.getValueAt(jTable1.getSelectedRow(), 0).toString());
             medecinFram.setId_medecin(id_medecin);
+            
+            medecinFram.setType_User(type_user);
             medecinFram.setVisible(true);
         } else if (this.personne.equals("kiné")) {
             try {
@@ -1041,10 +1051,7 @@ if (preformat != postformat) {
                     affectation_kine.setIdKine(id_kine);
                     affectation_kine.setVisible(true);
 
-                    EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
-                    emploiDuTemps.setModeTravail(mode_travail);
-                    emploiDuTemps.setIdKine(id_kine);
-                    emploiDuTemps.setVisible(true);
+                   
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
@@ -1053,6 +1060,36 @@ if (preformat != postformat) {
 
 
     }//GEN-LAST:event_affectaion_and_detail_btnActionPerformed
+
+    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
+        
+        
+        System.out.println(this.personne);
+        
+        if(this.personne.equals("patient")){
+            
+            try {
+                  int id_patient = Integer.parseInt(patient_table.getValueAt(patient_table.getSelectedRow(), 0).toString());
+                String nom = patient_table.getValueAt(patient_table.getSelectedRow(), 1).toString();
+                String prenom = patient_table.getValueAt(patient_table.getSelectedRow(), 2).toString();
+                String dg = patient_table.getValueAt(patient_table.getSelectedRow(), 3).toString();
+                int nb_seance = Integer.parseInt(patient_table.getValueAt(patient_table.getSelectedRow(), 4).toString());
+               
+                String date_visit = patient_table.getValueAt(patient_table.getSelectedRow(), 6).toString();
+
+                
+                boolean isUpdte = db.updatePatient(id_patient,nom,prenom,dg,nb_seance,date_visit);
+                
+                if(isUpdte){
+                    JOptionPane.showMessageDialog(this, 
+         "Patient update",
+         " Update ",
+         JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (Exception e) {
+            }
+        }
+    }//GEN-LAST:event_jLabel4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1109,7 +1146,6 @@ if (preformat != postformat) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jtable1;
     private keeptoo.KButton kButton4;
     private keeptoo.KButton kButton5;
     private keeptoo.KButton kButton6;
@@ -1119,6 +1155,7 @@ if (preformat != postformat) {
     private javax.swing.JPanel kini_panel;
     private keeptoo.KButton modier_btn;
     private keeptoo.KButton orthophonie_btn;
+    private javax.swing.JTable patient_table;
     private keeptoo.KButton psycho_btn;
     private keeptoo.KButton psychom_btn;
     private keeptoo.KButton telend_btn;

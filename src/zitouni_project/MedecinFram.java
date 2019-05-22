@@ -34,6 +34,13 @@ public class MedecinFram extends javax.swing.JFrame {
          getAllPatients();
     }
     
+     public void setType_User(String type_user){
+         if(type_user.equals("chef de service")){
+          change_password_btn.setVisible(false);
+         }
+       
+    }
+    
      public void searchPatientsWitheNom(String nom) {
         ResultSet res = db.getPatietsWithNomByIdMedecin(this.id_medecin,nom);
         try {
@@ -112,7 +119,7 @@ public class MedecinFram extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        kButton1 = new keeptoo.KButton();
+        change_password_btn = new keeptoo.KButton();
         kButton2 = new keeptoo.KButton();
         kButton3 = new keeptoo.KButton();
         jTextField1 = new javax.swing.JTextField();
@@ -120,13 +127,14 @@ public class MedecinFram extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel2.setBorder(new mdlaf.shadows.DropShadowBorder());
 
-        kButton1.setText("Modifier Mot de passe");
-        kButton1.addActionListener(new java.awt.event.ActionListener() {
+        change_password_btn.setText("Modifier Mot de passe");
+        change_password_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kButton1ActionPerformed(evt);
+                change_password_btnActionPerformed(evt);
             }
         });
 
@@ -156,21 +164,21 @@ public class MedecinFram extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(change_password_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(291, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(kButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(change_password_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -198,8 +206,8 @@ public class MedecinFram extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 884, Short.MAX_VALUE)
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,14 +244,14 @@ public class MedecinFram extends javax.swing.JFrame {
        searchPatientsWitheNom(jTextField1.getText());
     }//GEN-LAST:event_jTextField1KeyReleased
 
-    private void kButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton1ActionPerformed
+    private void change_password_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_change_password_btnActionPerformed
        
         int id_personne = db.getIdPersonneFromIdMedecin(id_medecin);
         NouveauMotDePasseFram nouveauMotDePasseFram = new NouveauMotDePasseFram();
         
         nouveauMotDePasseFram.setId_Personne(id_personne);
         nouveauMotDePasseFram.setVisible(true);
-    }//GEN-LAST:event_kButton1ActionPerformed
+    }//GEN-LAST:event_change_password_btnActionPerformed
 
     private void kButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton3ActionPerformed
         FilterFrame filterFrame = new FilterFrame();
@@ -325,12 +333,12 @@ public class MedecinFram extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private keeptoo.KButton change_password_btn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private keeptoo.KButton kButton1;
     private keeptoo.KButton kButton2;
     private keeptoo.KButton kButton3;
     // End of variables declaration//GEN-END:variables

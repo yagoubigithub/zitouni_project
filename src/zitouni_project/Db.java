@@ -1030,4 +1030,68 @@ public class Db {
         return id_kine;  
     }
 
+    boolean updatePatient(int id_patient, String nom, String prenom, String dg, int nb_seance, 
+            String date_visit) {
+     
+         int id_personne = getIdPersonneFromIdPatient(id_patient);
+         System.out.println(id_personne);
+        if (id_personne > 0) {
+            String query = " update   personne set `nom` = ?, `prenom` = ? "
+                    + "  WHERE id=" + id_personne;
+
+            // create the mysql insert preparedstatement
+            PreparedStatement preparedStmt;
+            try {
+                preparedStmt = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                preparedStmt.setString(1, nom);
+                preparedStmt.setString(2, prenom);
+               
+                preparedStmt.executeUpdate();
+
+                if (id_personne > 0) {
+
+                    query = " UPDATE `patient` SET  `nmbr_seance`=?, `date_visit`=? "
+                            + " WHERE id=" + id_patient;
+
+                    // create the mysql insert preparedstatement
+                    PreparedStatement preparedStmt3;
+                    try {
+                        preparedStmt3 = connect.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                       
+                        preparedStmt3.setInt(1, nb_seance);
+                        preparedStmt3.setString(2, date_visit);
+                        
+                        preparedStmt3.executeUpdate();
+
+                    } catch (SQLException ex) {
+
+                        System.out.println(ex.getMessage());
+                        return false;
+                    }
+
+                }
+
+            } catch (SQLException ex) {
+
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
+
+    private int getIdPersonneFromIdPatient(int id_patient) {
+       
+         ResultSet res = getSelect("SELECT id_personne FROM patient  WHERE id=" + id_patient);
+        int id_personne = -1;
+        try {
+            while (res.next()) {
+                id_personne = res.getInt("id_personne");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return id_personne;
+    }
+
 }

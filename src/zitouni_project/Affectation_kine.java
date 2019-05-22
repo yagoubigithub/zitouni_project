@@ -959,6 +959,7 @@ public class Affectation_kine extends javax.swing.JFrame {
         l_j_t_2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         j1_t.setText("dimanche ");
 

@@ -39,8 +39,13 @@ public class AuthFram extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setOpaque(false);
+
+        jTextField1.setText("zitouni");
+
+        jPasswordField1.setText("123");
 
         kButton1.setText("Connexion");
         kButton1.addActionListener(new java.awt.event.ActionListener() {
