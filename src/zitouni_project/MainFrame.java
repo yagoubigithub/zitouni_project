@@ -5,16 +5,24 @@
  */
 package zitouni_project;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.print.PrinterException;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+
 import zitouni_project.Object.Kine;
 import zitouni_project.Object.Medecin;
 import zitouni_project.Object.Patient;
@@ -263,21 +271,22 @@ public class MainFrame extends javax.swing.JFrame {
             dm.addRow(data);
             count++;
         }
-
         affectaion_and_detail_btn.setText("Médecin Detail");
-
     }
 
     public MainFrame() {
-
         initComponents();
-
+        patient_table.setBackground(Color.WHITE);
+       
+        patient_table.setRowHeight(50);
+        
         patients = new ArrayList<>();
         kines = new ArrayList<>();
         medecins = new ArrayList<>();
         showPanel("accueil");
         db = new Db();
 
+        
         getAllPatients();
         //  getAllKine();
         getAllMedecins();
@@ -401,6 +410,8 @@ public class MainFrame extends javax.swing.JFrame {
 
         accueil_panel.setBackground(new java.awt.Color(253, 253, 253));
 
+        patient_table.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        patient_table.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         patient_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -412,6 +423,7 @@ public class MainFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        patient_table.setGridColor(new java.awt.Color(204, 204, 255));
         patient_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 patient_tableMouseClicked(evt);
@@ -858,10 +870,22 @@ if (preformat != postformat) {
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        ImprimePatients2 imprimePatients = new ImprimePatients2();
 
-        imprimePatients.setPatients(patients);
-        imprimePatients.setVisible(true);
+     MessageFormat header = new MessageFormat("List DES  Patients");
+      MessageFormat footer = new MessageFormat("Page{0,number,Integer}");
+     
+     
+        try {
+            patient_table.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+            
+            /*        ImprimePatients2 imprimePatients = new ImprimePatients2();
+            
+            imprimePatients.setPatients(patients);
+            imprimePatients.setVisible(true);*/
+        } catch (PrinterException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       
 
     }//GEN-LAST:event_jLabel6MouseClicked
 

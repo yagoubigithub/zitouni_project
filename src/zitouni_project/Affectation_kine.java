@@ -17,6 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import zitouni_project.Object.Patient;
+import zitouni_project.Object.Personne;
+import zitouni_project.Object.Suivi;
 
 public class Affectation_kine extends javax.swing.JFrame {
 
@@ -25,6 +27,328 @@ public class Affectation_kine extends javax.swing.JFrame {
     private ArrayList<Patient> patients;
     private int id_kine;
 
+      public ArrayList<Suivi> getSuivi(String date) {
+        ArrayList<Suivi> suivis = new ArrayList<>();
+        ResultSet res = db.getAllSuiviInKineFromDateAndIdKine(id_kine, date);
+        try {
+
+            while (res.next()) {
+                suivis.add(new Suivi(res.getInt("id"), res.getInt("id_unite"), res.getInt("id_patient"),
+                        res.getString("date"),
+                        res.getString("heure"),
+                        res.getInt("id_medecin"),
+                        res.getInt("id_kine"),
+                        new Personne(res.getInt("id"),
+                                res.getString("nom"), res.getString("prenom"),
+                                res.getString("adresse"), res.getString("num_tel"),
+                                res.getString("date_naissance"),
+                                res.getString("sexe")))
+                );
+
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return suivis;
+    }
+      
+      
+       private void addPatients() {
+
+        ArrayList<Suivi> suivi_j1 = getSuivi(j1_t.getText());
+        l_d_t_1.setText("");
+        l_d_t_2.setText("");
+        l_d_t_3.setText("");
+        l_d_t_4.setText("");
+        for (int i = 0; i < suivi_j1.size(); i++) {
+            Suivi suivi = suivi_j1.get(i);
+            if (this.mode_travail.equals("jour")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        l_d_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        l_d_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        l_d_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        l_d_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        l_d_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        l_d_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        l_d_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        l_d_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        
+  /************ **************************************************************************************************/
+        
+        //Jour 2
+
+        ArrayList<Suivi> suivi_j2 = getSuivi(j2_t.getText());
+        l_l_t_1.setText("");
+        l_l_t_2.setText("");
+        l_l_t_3.setText("");
+        l_l_t_4.setText("");
+
+        for (int i = 0; i < suivi_j2.size(); i++) {
+            Suivi suivi = suivi_j2.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        l_l_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        l_l_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        l_l_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        l_l_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        l_l_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        l_l_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        l_l_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        l_l_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        
+        /****************************************************************************************************************/
+        //jour 3
+        ArrayList<Suivi> suivi_j3 = getSuivi(j3_t.getText());
+        
+         l_ma_t_1.setText("");
+        l_ma_t_2.setText("");
+        l_ma_t_3.setText("");
+        l_ma_t_4.setText("");
+
+        for (int i = 0; i < suivi_j3.size(); i++) {
+            Suivi suivi = suivi_j3.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        l_ma_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        l_ma_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        l_ma_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        l_ma_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        l_ma_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        l_ma_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        l_ma_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        l_ma_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        /***************************************************************************************************************/
+        //Jour 4
+        ArrayList<Suivi> suivi_j4 = getSuivi(j4_t.getText());
+         l_me_t_1.setText("");
+        l_me_t_2.setText("");
+        l_me_t_3.setText("");
+        l_me_t_4.setText("");
+
+        for (int i = 0; i < suivi_j4.size(); i++) {
+            Suivi suivi = suivi_j4.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        l_me_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        l_me_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        l_me_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        l_me_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        l_me_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        l_me_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        l_me_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        l_me_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+        
+        /*******************************************************************************************************/
+        //jour5
+        ArrayList<Suivi> suivi_j5 = getSuivi(j5_t.getText());
+        
+        
+         l_j_t_1.setText("");
+        l_j_t_2.setText("");
+        l_j_t_3.setText("");
+        l_j_t_4.setText("");
+
+        for (int i = 0; i < suivi_j5.size(); i++) {
+            Suivi suivi = suivi_j5.get(i);
+
+            if (this.mode_travail.contains("j")) {
+                switch (suivi.getHeure()) {
+                    case "08:00:00":
+
+                        l_j_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+                    case "10:00:00":
+
+                        l_j_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "13:00:00":
+
+                        l_j_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+                    case "15:00:00":
+
+                        l_j_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            } else {
+                switch (suivi.getHeure()) {
+
+                    case "17:00:00":
+                        l_j_t_1.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+
+                        break;
+
+                    case "19:00:00":
+                        l_j_t_2.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "21:00:00":
+                        l_j_t_3.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                    case "23:00:00":
+                        l_j_t_4.setText(suivi.getPatient().getNom() + " " + suivi.getPatient().getPrenom());
+                        break;
+
+                }
+            }
+
+        }
+        /*****************************************************************************************************************/
+
+    }
+    
     ArrayList<JComboBox> combos = new ArrayList<>();
 
     public Affectation_kine() {
@@ -87,6 +411,7 @@ public class Affectation_kine extends javax.swing.JFrame {
 
     public void setIdKine(int id_kine) {
         this.id_kine = id_kine;
+         addPatients();
     }
 
     public ArrayList<Patient> getPatientInKine() {
@@ -961,14 +1286,21 @@ public class Affectation_kine extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+
+        j1_t.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         j1_t.setText("dimanche ");
 
+        j2_t.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         j2_t.setText("lundi");
 
+        j3_t.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         j3_t.setText("mardi ");
 
+        j4_t.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         j4_t.setText("mercredi ");
 
+        j5_t.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         j5_t.setText("jeudi ");
 
         d_c_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -984,12 +1316,20 @@ public class Affectation_kine extends javax.swing.JFrame {
 
         d_c_4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        time1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        time1.setForeground(new java.awt.Color(102, 255, 102));
         time1.setText("jLabel6");
 
+        time2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        time2.setForeground(new java.awt.Color(102, 255, 102));
         time2.setText("jLabel7");
 
+        time3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        time3.setForeground(new java.awt.Color(102, 255, 102));
         time3.setText("jLabel8");
 
+        time4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        time4.setForeground(new java.awt.Color(102, 255, 102));
         time4.setText("jLabel9");
 
         l_c_1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -1029,44 +1369,64 @@ public class Affectation_kine extends javax.swing.JFrame {
 
         j_c_4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        l_d_t_1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_d_t_1.setText("jLabel10");
 
+        l_d_t_2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_d_t_2.setText("jLabel11");
 
+        l_d_t_3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_d_t_3.setText("jLabel12");
 
+        l_d_t_4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_d_t_4.setText("jLabel13");
 
+        l_l_t_1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_l_t_1.setText("jLabel14");
 
+        l_l_t_2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_l_t_2.setText("jLabel15");
 
+        l_l_t_3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_l_t_3.setText("jLabel16");
 
+        l_l_t_4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_l_t_4.setText("jLabel17");
 
+        l_ma_t_1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_ma_t_1.setText("jLabel18");
 
+        l_ma_t_2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_ma_t_2.setText("jLabel19");
 
+        l_ma_t_3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_ma_t_3.setText("jLabel20");
 
+        l_ma_t_4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_ma_t_4.setText("jLabel21");
 
+        l_me_t_1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_me_t_1.setText("jLabel22");
 
+        l_me_t_2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_me_t_2.setText("jLabel23");
 
+        l_me_t_3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_me_t_3.setText("jLabel24");
 
+        l_me_t_4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_me_t_4.setText("jLabel25");
 
+        l_j_t_1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_j_t_1.setText("jLabel26");
 
+        l_j_t_4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_j_t_4.setText("jLabel27");
 
+        l_j_t_3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_j_t_3.setText("jLabel28");
 
+        l_j_t_2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         l_j_t_2.setText("jLabel29");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -1125,7 +1485,7 @@ public class Affectation_kine extends javax.swing.JFrame {
                     .addComponent(l_me_t_3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(d_c_4, 0, 129, Short.MAX_VALUE)
+                    .addComponent(d_c_4, 0, 124, Short.MAX_VALUE)
                     .addComponent(l_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(ma_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(me_c_4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1163,7 +1523,7 @@ public class Affectation_kine extends javax.swing.JFrame {
                     .addComponent(l_d_t_2)
                     .addComponent(l_d_t_3)
                     .addComponent(l_d_t_4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(j2_t, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1177,7 +1537,7 @@ public class Affectation_kine extends javax.swing.JFrame {
                     .addComponent(l_l_t_2)
                     .addComponent(l_l_t_3)
                     .addComponent(l_l_t_4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(j3_t)
                     .addComponent(ma_c_1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1190,7 +1550,7 @@ public class Affectation_kine extends javax.swing.JFrame {
                     .addComponent(l_ma_t_2)
                     .addComponent(l_ma_t_3)
                     .addComponent(l_ma_t_4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(j4_t, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

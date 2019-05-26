@@ -22,6 +22,15 @@ public class Patient {
     private String prenom_medecin;
     private String date_visit;
 
+    public Patient(int id, String nom, String prenom) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+    }
+
+    
+    
+    
     public Patient(int id, String nom, String prenom, String dg, int nombre_seance, String nom_medecin, String prenom_medecin, String date_visit) {
         this.id = id;
         this.nom = nom;

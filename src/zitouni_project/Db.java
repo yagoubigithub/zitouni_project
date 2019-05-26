@@ -753,6 +753,7 @@ public class Db {
                         res.getString("diagno"), res.getInt("nmbr_seance"),
                         res.getString("nom_medecin"),
                         res.getString("prenom_medecin"), res.getString("date_visit"));
+                System.out.println(res.getString("nom"));
             }
         } catch (SQLException ex) {
             Logger.getLogger(Db.class.getName()).log(Level.SEVERE, null, ex);
