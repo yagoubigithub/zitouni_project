@@ -7,12 +7,15 @@ package zitouni_project;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.print.PrinterException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import zitouni_project.Object.Patient;
 
@@ -139,6 +142,11 @@ public class MedecinFram extends javax.swing.JFrame {
         });
 
         kButton2.setText("Imprimer");
+        kButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                kButton2ActionPerformed(evt);
+            }
+        });
 
         kButton3.setText("Listé");
         kButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -296,6 +304,23 @@ public class MedecinFram extends javax.swing.JFrame {
             }
         });
     }//GEN-LAST:event_kButton3ActionPerformed
+
+    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
+           MessageFormat header = new MessageFormat("List DES  Patients");
+      MessageFormat footer = new MessageFormat("Page{0,number,Integer}");
+     
+     
+        try {
+            jTable1.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+            
+            /*        ImprimePatients2 imprimePatients = new ImprimePatients2();
+            
+            imprimePatients.setPatients(patients);
+            imprimePatients.setVisible(true);*/
+        } catch (PrinterException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_kButton2ActionPerformed
 
     /**
      * @param args the command line arguments

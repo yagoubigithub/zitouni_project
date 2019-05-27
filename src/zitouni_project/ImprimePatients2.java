@@ -8,7 +8,7 @@ package zitouni_project;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import zitouni_project.Object.Patient;
-    import com.wildcrest.j2printerworks.*; 
+  //  import com.wildcrest.j2printerworks.*; 
 import javax.swing.JPanel;
 
 
@@ -166,7 +166,7 @@ public class ImprimePatients2 extends javax.swing.JFrame  {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-     
+     /*
        J2Printer printer = new J2Printer(); 
         printer.setSeparatePrintThread(false); 
         
@@ -181,6 +181,8 @@ public class ImprimePatients2 extends javax.swing.JFrame  {
         printer.addPageable(panelPrinter); 
        
         printer.print(); 
+        */
+     
     }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
