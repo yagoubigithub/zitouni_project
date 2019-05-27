@@ -118,18 +118,26 @@ public class AuthFram extends javax.swing.JFrame {
 
     private void kButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton1ActionPerformed
         
+        //Get the name and the password
         String nom = jTextField1.getText();
         String password = jPasswordField1.getText();
+        
+        
         String type = db.Auth(nom, password);
+        
+        
+         //if type== "no" so the user doesn't exist
         if (type.equals("no")) {
-            //Affiche dialoge  error nom or password
-            
+          // show a alert to the user**********************
             JOptionPane.showMessageDialog(this, 
          "le nom ou le mot de passe incorect",
          " Erreur ",
          JOptionPane.WARNING_MESSAGE);
             jTextField1.setText("");
             jPasswordField1.setText("");
+         /**********************************************************   
+            */
+            
         }  else if (type.equals("medecin")) {
             //Médecin
             int id_personne = db.getIdPersonneFromUsers(nom, password);
