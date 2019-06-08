@@ -301,3 +301,22 @@ getAllPatientByIdMedecin : get the information about the patients that visit the
     }
 
  ```
+ 
+ ### Event in the MedecinFrame :
+ jTextField1KeyReleased => when the user type somthing in the search input:
+ ```
+  private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {                              
+       searchPatientsWitheNom(jTextField1.getText());
+    }   
+ ```
+jTextField1.getText() => get The value of the input
+
+### Change password Button :
+when u click the change password button you execute the event : change_password_btnActionPerformed
+
+```
+ int id_personne = db.getIdPersonneFromIdMedecin(id_medecin);
+ NouveauMotDePasseFram nouveauMotDePasseFram = new NouveauMotDePasseFram();
+ nouveauMotDePasseFram.setId_Personne(id_personne);
+ nouveauMotDePasseFram.setVisible(true);
+```
