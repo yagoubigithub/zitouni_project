@@ -169,7 +169,135 @@ dispose();
          getAllPatients();
     }
  ```
+ ofter the set of the id of the medecin we execute getAllPatients() function for display the table of the "patients" in the MedecinFram
+ hint :  get only the patients that visit this medecin we use the Id medecin.
+ ```
+    public void getAllPatients() {
+        ResultSet res = db.getAllPatientByIdMedecin(this.id_medecin);
+
+        try {
+            patients.clear(); // clear the patints array after that the array is empty
+
+            while (res.next()) {
+                patients.add(new Patient(res.getInt("id_patient"),
+                        res.getString("nom"), res.getString("prenom"),
+                        res.getString("diagno"), res.getInt("nmbr_seance"),
+                        res.getString("nom_medecin"),
+                        res.getString("prenom_medecin"), res.getString("date_visit")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        displayPatients();
+    }
+ ```
+### In class Db : 
+getAllPatientByIdMedecin : get the information about the patients that visit the medecin who have this id_medecin : 
+```sh
+ ResultSet getAllPatientByIdMedecin(int id_medecin) {
+        return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n "
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id WHERE patient.id_medecin=" + id_medecin + " "
+                + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + "ORDER BY tab2.id_personne_ DESC"
+        );
+    }
+```
  
  
+ #### displayPatients => display patients array in the table
+ ```sh
+  public void displayPatients() {
+
+          //set the header of the table
+        DefaultTableModel dm = new DefaultTableModel(0, 0);
+        String header[] = new String[]{"", "Nom:", "Prénom:", "Dg:", "Séance:", "Date visit"};
+        dm.setColumnIdentifiers(header);
+        jTable1.setModel(dm);
+
+        
+       
+        //set the data in the table =>rows
+
+        for (int i = 0; i < patients.size(); i++) {
+            Patient patient = patients.get(i);
+            Vector<Object> data = new Vector<Object>();
+            data.add(patient.getId());
+            data.add(patient.getNom());
+            data.add(patient.getPrenom());
+            data.add(patient.getDg());
+            data.add(patient.getNombre_seance());
+            data.add(patient.getDate_visit());
+            dm.addRow(data);
+            
+        }
+    }
+ ```
+ #### the serch input by the name of the patient 
  
+ ```
+ public void searchPatientsWitheNom(String nom) {
+        ResultSet res = db.getPatietsWithNomByIdMedecin(this.id_medecin,nom);
+        try {
+            patients.clear();
+
+            while (res.next()) {
+                patients.add(new Patient(res.getInt("id_patient"),
+                        res.getString("nom"), res.getString("prenom"),
+                        res.getString("diagno"), res.getInt("nmbr_seance"),
+                        res.getString("nom_medecin"),
+                        res.getString("prenom_medecin"), res.getString("date_visit")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        displayPatients();
+    }
+ ```
  
+ ### In class Db : 
+ 
+ is the same like getAllPatientByIdMedecin but we use ```WHERE``` to find only patients that have name like the name we pass it  =>``` WHERE tab2.nom LIKE '%" + nom + "%'   "```
+ 
+ ```
+   ResultSet getPatietsWithNomByIdMedecin(int id_medecin, String nom) {
+        return getSelect("SELECT tab2.*,personne.nom nom_medecin,personne.prenom prenom_medecin "
+                + "FROM (SELECT * FROM(SELECT patient.id id_patient, personne.id id_personne_,  personne.nom, personne.prenom,personne.date_naissance,\n"
+                + "                personne.adresse,personne.num_tel,personne.sexe,patient.nmbr_seance,patient.date_visit,\n"
+                + "                unite.nom nom_unite,\n"
+                + "                 lettre.diagno ,\n"
+                + "                patient.id_medecin\n"
+                + "                 FROM personne \n"
+                + "                JOIN patient \n"
+                + "                ON patient.id_personne= personne.id\n"
+                + "                JOIN lettre \n"
+                + "                ON lettre.id_patient=patient.id \n "
+                + "                JOIN unite\n"
+                + "                ON lettre.id_unite=unite.id WHERE patient.id_medecin=" + id_medecin + " "
+                + ") tab1\n"
+                + "JOIN medecin\n"
+                + "ON medecin.id=tab1.id_medecin) tab2\n"
+                + "\n"
+                + "JOIN personne \n"
+                + "ON tab2.id_personne=personne.id "
+                + " WHERE tab2.nom LIKE '%" + nom + "%'   "
+                + "ORDER BY tab2.id_personne_ DESC"
+        );
+    }
+
+ ```

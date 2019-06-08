@@ -27,6 +27,7 @@ public class MedecinFram extends javax.swing.JFrame {
     
     public MedecinFram() {
         initComponents();
+        
         patients = new ArrayList<>();
         db=new Db();
        
@@ -65,33 +66,29 @@ public class MedecinFram extends javax.swing.JFrame {
      
       public void displayPatients() {
 
+          //set the header of the table
         DefaultTableModel dm = new DefaultTableModel(0, 0);
         String header[] = new String[]{"", "Nom:", "Prénom:", "Dg:", "Séance:", "Date visit"};
         dm.setColumnIdentifiers(header);
         jTable1.setModel(dm);
 
-        int count = 1;
+        
+       
+        //set the data in the table =>rows
 
         for (int i = 0; i < patients.size(); i++) {
             Patient patient = patients.get(i);
 
             Vector<Object> data = new Vector<Object>();
             data.add(patient.getId());
-
             data.add(patient.getNom());
             data.add(patient.getPrenom());
-
             data.add(patient.getDg());
             data.add(patient.getNombre_seance());
-           
-
             data.add(patient.getDate_visit());
-
             dm.addRow(data);
-            count++;
+            
         }
-       
-
     }
       
         public void getAllPatients() {
