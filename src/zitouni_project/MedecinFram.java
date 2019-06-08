@@ -21,7 +21,7 @@ import zitouni_project.Object.Patient;
 
 
 public class MedecinFram extends javax.swing.JFrame {
- Db db;
+    Db db;
     ArrayList<Patient> patients;
     int id_medecin ;
     
@@ -61,6 +61,8 @@ public class MedecinFram extends javax.swing.JFrame {
         }
         displayPatients();
     }
+     
+     
       public void displayPatients() {
 
         DefaultTableModel dm = new DefaultTableModel(0, 0);

@@ -104,7 +104,72 @@ First : Get the Id personne via the "password" and "nom" from user table
  ```
  int id_medecin = db.getIdMedecinFomrIdpersonne(id_personne);
  ```
+ Finally : open Medecin Fram with the ID of the medecin :
  
- 
- 
+ ```
+  MedecinFram medecinFram = new MedecinFram();
+  medecinFram.setId_medecin(id_medecin);
+  medecinFram.setVisible(true);
+  dispose();
+```
 
+``` dispose();``` this method close the Frame.
+
+ 3.User is "kiné"
+ 
+ ```
+ else if (type.equals("kinésithérapie_agent")) {
+            //Kiné
+            ...
+ ```
+ First : Get the Id personne via the "password" and "nom" from user table
+```
+ int id_personne = db.getIdPersonneFromUsers(nom, password);
+ ```
+ Second  :  Get the Id Kine via Id "personne" From kine table
+ ```
+ int id_kine = db.getIdKineFromIdPersonne(id_personne);
+ ```
+ 
+ Finally : open the EmploiDuTemps Frame via kine ID : 
+ 
+ ```
+EmploiDuTemps emploiDuTemps = new EmploiDuTemps();
+emploiDuTemps.setIdKine(id_kine);
+emploiDuTemps.setVisible(true);   
+dispose();
+ ```
+ 4.  else => chef de service ```OR``` Réceptionniste
+ Open rhe Main Frame :
+```
+   //MainFrame
+   MainFrame mf = new MainFrame();
+   mf.setType_User(type);
+   mf.setVisible(true);
+dispose();
+```
+
+ ## MedecinFram : 
+ in the constructor we initial the 'patients' array and db Object of the DB class :
+ 
+ ```sh
+  public MedecinFram() {
+    initComponents(); /* this function is made by netbeans is initial the Frame and the his child*/
+        
+    patients = new ArrayList<>();
+    db=new Db();
+       
+    }
+ ```
+ #### setId_medecin : 
+ set the Id to MedecinFrame after this we can use the id in the MedecinFrame class.
+ ```
+ public void setId_medecin(int id_medecin){
+        this.id_medecin = id_medecin;
+         getAllPatients();
+    }
+ ```
+ 
+ 
+ 
+ 
