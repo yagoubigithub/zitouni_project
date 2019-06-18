@@ -122,7 +122,7 @@ public class MedecinFram extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         change_password_btn = new keeptoo.KButton();
-        kButton2 = new keeptoo.KButton();
+        print = new keeptoo.KButton();
         kButton3 = new keeptoo.KButton();
         jTextField1 = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -140,10 +140,10 @@ public class MedecinFram extends javax.swing.JFrame {
             }
         });
 
-        kButton2.setText("Imprimer");
-        kButton2.addActionListener(new java.awt.event.ActionListener() {
+        print.setText("Imprimer");
+        print.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                kButton2ActionPerformed(evt);
+                printActionPerformed(evt);
             }
         });
 
@@ -173,7 +173,7 @@ public class MedecinFram extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(change_password_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -186,7 +186,7 @@ public class MedecinFram extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(change_password_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(kButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(print, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
@@ -304,22 +304,17 @@ public class MedecinFram extends javax.swing.JFrame {
         });
     }//GEN-LAST:event_kButton3ActionPerformed
 
-    private void kButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kButton2ActionPerformed
+    private void printActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printActionPerformed
            MessageFormat header = new MessageFormat("List DES  Patients");
-      MessageFormat footer = new MessageFormat("Page{0,number,Integer}");
-     
+         MessageFormat footer = new MessageFormat("Page{0,number,Integer}");
      
         try {
             jTable1.print(JTable.PrintMode.FIT_WIDTH, header, footer);
             
-            /*        ImprimePatients2 imprimePatients = new ImprimePatients2();
-            
-            imprimePatients.setPatients(patients);
-            imprimePatients.setVisible(true);*/
         } catch (PrinterException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }//GEN-LAST:event_kButton2ActionPerformed
+    }//GEN-LAST:event_printActionPerformed
 
     /**
      * @param args the command line arguments
@@ -363,7 +358,7 @@ public class MedecinFram extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
-    private keeptoo.KButton kButton2;
     private keeptoo.KButton kButton3;
+    private keeptoo.KButton print;
     // End of variables declaration//GEN-END:variables
 }

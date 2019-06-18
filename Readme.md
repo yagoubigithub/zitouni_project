@@ -312,7 +312,7 @@ getAllPatientByIdMedecin : get the information about the patients that visit the
 jTextField1.getText() => get The value of the input
 
 ### Change password Button :
-when u click the change password button you execute the event : change_password_btnActionPerformed
+when you click the change password button you execute the event : change_password_btnActionPerformed
 
 ```
  int id_personne = db.getIdPersonneFromIdMedecin(id_medecin);
@@ -320,3 +320,107 @@ when u click the change password button you execute the event : change_password_
  nouveauMotDePasseFram.setId_Personne(id_personne);
  nouveauMotDePasseFram.setVisible(true);
 ```
+
+### Filter Button (Listé) :
+When you click this button you execute the event : 
+kButton3ActionPerformed 
+#### Open Open FilterFram window :
+```
+ FilterFrame filterFrame = new FilterFrame();
+ filterFrame.setVisible(true);
+```
+
+add event to listen when the filterFram closed  :
+
+```
+ filterFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+   }
+}
+```
+
+get the day and month and the year if is selected
+```
+ // get all information
+                String day = null;
+                String mois = null;
+                String annee = null;
+                if (filterFrame.isSelectedDay()) {
+                    day = filterFrame.getDay();
+                }
+
+                if (filterFrame.isSelectedMois()) {
+                    mois = filterFrame.getMois();
+
+                }
+                if (filterFrame.isSelectedAnnee()) {
+                    annee = filterFrame.getAnnee();
+
+                }
+```
+
+you can see this  ```isSelectedDay() ```  ```isSelectedMois() ```  ```isSelectedAnnee() ``` methods in FilterFrame class :
+
+```sh
+public boolean  isSelectedDay(){
+           return jCheckBox1.isSelected();
+       }
+ public boolean  isSelectedMois(){
+           return jCheckBox2.isSelected();
+       }
+ public boolean  isSelectedAnnee(){
+           return jCheckBox3.isSelected();
+       }
+```
+
+After we get the date(day,month,year) we execute this function from DB class :
+```sh
+ResultSet res = db.getPatietsWithdateAndIdMedecin(id_medecin,day, mois, annee);
+```
+
+get the patients from the cursor : 
+
+```sh
+  try {
+             patients.clear();
+
+            while (res.next()) {
+                patients.add(new Patient(res.getInt("id_patient"),
+                  res.getString("nom"), res.getString("prenom"),
+                  res.getString("diagno"), res.getInt("nmbr_seance"),
+                  res.getString("nom_medecin"),
+                  res.getString("prenom_medecin"),
+                  res.getString("date_visit")));
+                    }
+} catch (SQLException ex) {
+    Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+```
+after we get the data we desplay it :
+
+```
+displayPatients();
+// close the windows
+e.getWindow().dispose();
+```
+
+### print Button (imprimer) :
+the event printActionPerformed
+
+print the table code : 
+```sh
+ MessageFormat header = new MessageFormat("List DES  Patients");
+ MessageFormat footer = new MessageFormat("Page{0,number,Integer}");
+ try {
+      jTable1.print(JTable.PrintMode.FIT_WIDTH, header, footer);
+    } catch (PrinterException ex) {
+           Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+    }
+```
+
+
+
+
+

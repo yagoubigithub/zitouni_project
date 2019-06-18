@@ -33,6 +33,11 @@ import zitouni_project.Object.Personne;
  */
 public class Db {
 
+    private static String USERNAME = "admin";
+    private static String PASSWORD = "";
+    private static String DB_NAME = "mpr2";
+    
+    
     private Connection connect = null;
     private Statement statement = null;
     private PreparedStatement preparedStatement = null;
@@ -43,8 +48,8 @@ public class Db {
 
             Class.forName("com.mysql.jdbc.Driver").newInstance();
 
-            connect = DriverManager.getConnection("jdbc:mysql://localhost/" + "mpr2" + "?"
-                    + "user=admin&password=");
+            connect = DriverManager.getConnection("jdbc:mysql://localhost/" + DB_NAME + "?"
+                    + "user="+USERNAME+"&password="+PASSWORD);
             statement = connect.createStatement();
 
         } catch (Exception e) {

@@ -75,7 +75,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="change_password_btn" min="-2" pref="121" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="kButton2" min="-2" pref="118" max="-2" attributes="0"/>
+                      <Component id="print" min="-2" pref="118" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="kButton3" min="-2" pref="120" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -90,7 +90,7 @@
                       <EmptySpace max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="change_password_btn" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="kButton2" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="print" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -114,12 +114,12 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="change_password_btnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="keeptoo.KButton" name="kButton2">
+            <Component class="keeptoo.KButton" name="print">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Imprimer"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="kButton2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="printActionPerformed"/>
               </Events>
             </Component>
             <Component class="keeptoo.KButton" name="kButton3">
